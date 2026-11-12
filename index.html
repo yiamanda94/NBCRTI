@@ -1,0 +1,1740 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>傳統通路戰情表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* 版面：頂部摘要帶 → 分頁（營業所總覽／店家查詢）。店家查詢為「清單 | 店家卡」雙欄，手機堆疊 */
+:root{
+  --bg:#F2F4F1; --surface:#FFFFFF; --sunk:#E8ECE8; --ink:#17201C; --muted:#5A6A62; --line:#D7DFD9;
+  --accent:#0B6B53; --accent-ink:#FFFFFF; --accent-soft:#DDEFE7;
+  --good:#1D7F47; --good-soft:#DCF1E3; --warn:#9A6212; --warn-soft:#F8EBD3; --bad:#B4380B; --bad-soft:#FBE3D7;
+  --pace:#6B5BA8;
+  --c1:#3D6CB0; --c2:#B04A32; --c3:#C98F12; --c4:#5E8A34; --c5:#8A8F99;
+  --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-data:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1412; --surface:#161E1B; --sunk:#1D2723; --ink:#E4ECE7; --muted:#92A39A; --line:#2A3631;
+  --accent:#4DBF98; --accent-ink:#06231A; --accent-soft:#163A2E;
+  --good:#5BC98A; --good-soft:#173726; --warn:#E3AA52; --warn-soft:#3A2C14; --bad:#F2875A; --bad-soft:#3D2015;
+  --pace:#A797E6; --c1:#7FA6E6; --c2:#E58A70; --c3:#E8B84A; --c4:#97C46A; --c5:#A3A9B4; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1412; --surface:#161E1B; --sunk:#1D2723; --ink:#E4ECE7; --muted:#92A39A; --line:#2A3631;
+  --accent:#4DBF98; --accent-ink:#06231A; --accent-soft:#163A2E;
+  --good:#5BC98A; --good-soft:#173726; --warn:#E3AA52; --warn-soft:#3A2C14; --bad:#F2875A; --bad-soft:#3D2015;
+  --pace:#A797E6; --c1:#7FA6E6; --c2:#E58A70; --c3:#E8B84A; --c4:#97C46A; --c5:#A3A9B4; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.55}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,3vw,32px);padding-block:20px 48px;display:flex;flex-direction:column;gap:18px}
+.num,.mono{font-family:var(--f-data);font-variant-numeric:tabular-nums}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* 頁首 */
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 20px;border-bottom:2px solid var(--ink);padding-bottom:14px}
+.brand{display:flex;flex-direction:column;gap:2px;min-width:0}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--muted);font-weight:500}
+h1{font-family:var(--f-display);font-weight:900;font-size:clamp(24px,4vw,34px);line-height:1.15;margin:0;text-wrap:balance}
+.asof{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;color:var(--muted);font-size:13px}
+.asof b{color:var(--ink);font-weight:600}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 14px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:default}
+
+/* 摘要帶 */
+.strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.stat{padding:14px 18px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.stat+.stat{border-left:1px solid var(--line)}
+.stat .k{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.stat .v{font-family:var(--f-data);font-size:26px;font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums}
+.stat .v small{font-size:14px;color:var(--muted);font-weight:400;margin-left:2px}
+.stat .s{font-size:12px;color:var(--muted)}
+@media (max-width:760px){.strip{grid-template-columns:repeat(2,minmax(0,1fr))}.stat:nth-child(3){border-left:0}.stat:nth-child(n+3){border-top:1px solid var(--line)}}
+
+/* 分頁 */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.tab{border:0;background:none;padding:9px 16px;cursor:pointer;color:var(--muted);font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+
+/* 營業所表 */
+.tablebox{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;min-width:900px}
+th,td{padding:9px 12px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line)}
+th{font-size:12px;font-weight:500;color:var(--muted);background:var(--sunk);position:sticky;top:0}
+th.grp{text-align:center;border-left:1px solid var(--line)}
+td.l,th.l{text-align:left}
+td.sep,th.sep{border-left:1px solid var(--line)}
+tbody tr{cursor:pointer}
+tbody tr:hover td{background:var(--accent-soft)}
+tfoot td{font-weight:600;background:var(--sunk);border-bottom:0}
+.oname{font-weight:700}
+.ocode{color:var(--muted);font-size:12px;margin-left:6px}
+.bar{display:inline-flex;align-items:center;gap:8px}
+.bar i{display:block;width:72px;height:6px;border-radius:3px;background:var(--sunk);position:relative;overflow:hidden}
+.bar i b{position:absolute;inset:0 auto 0 0;border-radius:3px}
+.pts{display:inline-block;min-width:22px;text-align:center;border-radius:5px;padding:0 6px;font-weight:600}
+.pts.on{background:var(--good-soft);color:var(--good)}
+.pts.off{color:var(--muted)}
+.hint{font-size:12px;color:var(--muted)}
+
+/* 狀態膠囊 */
+.pill{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill.good{background:var(--good-soft);color:var(--good)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.mute{background:var(--sunk);color:var(--muted)}
+.t-good{color:var(--good)}.t-warn{color:var(--warn)}.t-bad{color:var(--bad)}
+
+/* 篩選列 */
+.filters{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.field{display:flex;flex-direction:column;gap:3px;min-width:0}
+.field label,.fl{font-size:11px;color:var(--muted);letter-spacing:.06em}
+select,input[type=search]{border:1px solid var(--line);background:var(--bg);border-radius:7px;padding:6px 9px;min-width:0}
+input[type=search]{width:min(240px,100%)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:3px 11px;font-size:13px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+/* 查詢雙欄 */
+.split{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.split{grid-template-columns:minmax(0,1fr)}}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;max-height:calc(100vh - 120px);min-height:200px}
+@media (max-width:900px){.list{max-height:420px}}
+.listhead{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.listhead select{padding:3px 6px;font-size:12px}
+.rows{overflow-y:auto;flex:1}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;padding:9px 12px;cursor:pointer}
+.row:hover{background:var(--sunk)}
+.row[aria-current="true"]{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.row .n{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .m{grid-column:1;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .r{grid-row:1/3;grid-column:2;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:2px}
+.row .r .num{font-size:12px;color:var(--muted)}
+.empty{padding:28px 16px;text-align:center;color:var(--muted)}
+
+/* 店家卡 */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;min-width:0}
+.card-h{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 16px}
+.card-h h2{font-family:var(--f-display);font-size:22px;margin:0;line-height:1.25;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted);margin-top:4px}
+.meta b{color:var(--ink);font-weight:500}
+.typechip{display:inline-block;border:1.5px solid var(--ink);border-radius:6px;padding:1px 9px;font-weight:700;font-size:13px}
+.sec{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:12px}
+.sec:last-child{border-bottom:0}
+.sec h3{margin:0;font-size:13px;letter-spacing:.08em;color:var(--muted);font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px 18px}
+.kv div{display:flex;flex-direction:column;gap:1px;min-width:0}
+.kv span{font-size:12px;color:var(--muted)}
+.kv strong{font-family:var(--f-data);font-size:19px;font-weight:600;font-variant-numeric:tabular-nums}
+.kv strong small{font-size:12px;color:var(--muted);font-weight:400;margin-left:2px}
+.kv em{font-style:normal;font-size:12px}
+
+/* 進度尺 */
+.meter{position:relative;padding-top:18px;padding-bottom:20px}
+.track{height:12px;border-radius:6px;background:var(--sunk);position:relative;overflow:visible}
+.fill{position:absolute;left:0;top:0;bottom:0;border-radius:6px}
+.tick{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);opacity:.55}
+.tick.pace{background:var(--pace);opacity:1;width:2px}
+.tlab{position:absolute;top:-18px;font-size:11px;transform:translateX(-50%);white-space:nowrap;color:var(--muted)}
+.tlab.below{top:auto;bottom:-20px}
+.tlab.pace{color:var(--pace);font-weight:600}
+.reward{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;font-size:14px}
+.reward .num{text-align:right}
+.reward .tot{border-top:1px solid var(--line);padding-top:6px;font-weight:700}
+.reward .sub{color:var(--muted);font-size:12px;grid-column:1/-1;margin-top:-4px}
+.note{font-size:13px;background:var(--sunk);border-radius:8px;padding:9px 12px}
+.note.good{background:var(--good-soft)}.note.warn{background:var(--warn-soft)}.note.bad{background:var(--bad-soft)}
+
+details.rules{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+details.rules summary{padding:12px 16px;cursor:pointer;font-weight:600}
+.rules-body{padding:0 20px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 28px;font-size:13px}
+.rules-body h4{margin:6px 0 4px;font-size:13px}
+.rules-body ul{margin:0;padding-left:18px;color:var(--muted)}
+
+/* 更新面板 */
+.panel{background:var(--surface);border:1.5px dashed var(--accent);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.panel.drag{background:var(--accent-soft)}
+.panel h3{margin:0;font-size:15px}
+.panel .acts{display:flex;flex-wrap:wrap;gap:8px}
+.msg{font-size:13px}
+.msg.err{color:var(--bad)}.msg.ok{color:var(--good)}
+.loading{padding:60px 0;text-align:center;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.fill,.bar i b{transition:width .35s ease}}
+/* 品類切換 */
+.stack{display:flex;flex-direction:column;gap:18px}
+.product{display:flex;flex-wrap:wrap;gap:2px;background:var(--sunk);border-radius:10px;padding:3px;align-self:flex-start;max-width:100%}
+.prod{border:0;background:none;border-radius:8px;padding:7px 14px 7px 9px;cursor:pointer;font-weight:600;color:var(--muted);display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.prod .pk{font-family:var(--f-display);font-weight:900;width:24px;height:24px;border-radius:6px;display:inline-grid;place-items:center;border:1.5px solid currentColor;font-size:13px}
+.prod[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.prod[aria-selected="true"] .pk{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.card-tags{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.contracts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.con{border:1px solid var(--accent);color:var(--accent);background:none;border-radius:6px;padding:1px 8px;font-size:12px;font-weight:600}
+.con.link{cursor:pointer}
+.con.link:hover{background:var(--accent-soft)}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tier{border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:1px}
+.tier span{font-size:12px;color:var(--muted)}
+.tier strong{font-family:var(--f-data);font-size:18px}
+.tier em{font-style:normal;font-size:12px;color:var(--muted)}
+.tier.on{background:var(--good-soft);border-color:transparent}
+.tier.on strong,.tier.on em{color:var(--good)}
+table.wide{min-width:1180px}
+/* 品類占比與月份圖 */
+.catbar{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--sunk);gap:2px}
+.catbar i{display:block;height:100%}
+.catlegend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px}
+.catlegend>span{display:inline-flex;align-items:center;gap:6px}
+.catlegend b{width:10px;height:10px;border-radius:3px;display:inline-block}
+.mchart{width:100%;height:auto;display:block}
+.mchart .grid{stroke:var(--line);stroke-width:1}
+.mchart .ax{fill:var(--muted);font-size:11px;font-family:var(--f-data)}
+.mchart .axm{fill:var(--ink);font-weight:600}
+.mchart .axv{fill:var(--accent);font-weight:600}
+.chartkey{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--muted)}
+.chartkey span{display:inline-flex;align-items:center;gap:6px}
+.chartkey b{width:12px;height:10px;border-radius:2px;display:inline-block}
+.chartkey .k1{background:var(--line)}.chartkey .k2{border:1.5px dashed var(--muted)}.chartkey .k3{background:var(--accent)}
+
+/* 上方店家查詢 */
+h2.sect{font-family:var(--f-display);font-size:20px;margin:6px 0 0;display:flex;align-items:center;gap:10px}
+h2.sect::after{content:"";flex:1;height:1px;background:var(--line)}
+.query{display:flex;flex-direction:column;gap:10px}
+#query{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.qbar{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.qbar .field.grow{flex:1 1 320px}
+.qbar select{min-width:0;max-width:100%}
+.qstore{display:flex;flex-wrap:wrap;gap:8px}
+.qstore input{flex:0 1 200px;width:auto}
+.qstore select{flex:1 1 220px}
+.checks{display:flex;flex-wrap:wrap;gap:6px}
+.check{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:6px 12px;cursor:pointer;font-weight:500;user-select:none}
+.check input{accent-color:var(--accent);width:16px;height:16px;margin:0}
+.check:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.check.off{opacity:.45;cursor:default}
+.qempty{background:var(--surface);border:1px dashed var(--line);border-radius:var(--r);padding:26px 18px;text-align:center;color:var(--muted)}
+#qres{display:flex;flex-direction:column;gap:14px}
+.qhead h2{font-family:var(--f-display);font-size:clamp(22px,3.4vw,28px);margin:0;text-wrap:balance}
+.qtiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.qt{padding:12px 16px;display:flex;flex-direction:column;gap:2px;min-width:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 -1px -1px 0}
+.qt span{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.qt strong{font-family:var(--f-data);font-size:22px;font-weight:600;line-height:1.25;font-variant-numeric:tabular-nums}
+.qt strong small{font-size:13px;color:var(--muted);font-weight:400;margin-left:2px}
+.qt em{font-style:normal;font-size:12px;color:var(--muted)}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:16px;align-items:start}
+.qcol{display:flex;flex-direction:column;gap:6px;min-width:0}
+.qlabel{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--accent)}
+.golink{border:0;background:none;color:var(--accent);font-size:12px;cursor:pointer;padding:0;font-weight:600}
+.golink:hover{text-decoration:underline}
+#qres .golink{display:none}
+
+/* 酒特陳架季表 */
+.tablebox.flat{border:0;border-radius:0}
+table.qtable{min-width:0}
+table.qtable th,table.qtable td{padding:7px 10px}
+table.qtable tr.cur td{background:var(--accent-soft);font-weight:600}
+
+/* 最上方按鈕列（黏在頂端） */
+.topnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:4px;overflow-x:auto;background:var(--sunk);border-radius:12px;padding:4px;scrollbar-width:none}
+.topnav::-webkit-scrollbar{display:none}
+.topnav .prod{flex:1 0 auto;justify-content:center;padding:9px 14px}
+.qtabs{display:flex;gap:6px;flex-wrap:wrap}
+.qtab{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 14px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:120px;color:var(--muted);font-weight:600}
+.qtab small{font-size:12px;font-weight:400;font-family:var(--f-data)}
+.qtab[aria-selected="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--ink);box-shadow:inset 0 -3px 0 var(--accent)}
+.t-mute{color:var(--muted)}
+td .sub{font-size:11px;font-weight:500}
+.chartkey .k4{background:var(--accent-soft);border:1.5px solid var(--accent)}
+
+/* 密碼畫面 */
+body.locked .topnav,body.locked #secQuery,body.locked #app,body.locked .asof{display:none!important}
+.lock{display:flex;justify-content:center;padding-block:40px}
+.lockbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px 24px;display:flex;flex-direction:column;gap:12px;width:min(380px,100%)}
+.lockbox h2{font-family:var(--f-display);margin:0;font-size:22px}
+.lockbox input{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:10px 12px;font:inherit;color:inherit}
+.lockbox .hint{margin:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <span class="eyebrow" id="org">傳統通路</span>
+      <h1 id="h1">傳統通路戰情表</h1>
+    </div>
+    <div class="asof">
+      <span>資料截至 <b id="asof">—</b></span>
+      <span id="paceBox"></span>
+      
+    </div>
+  </header>
+
+  <nav class="topnav" role="tablist" aria-label="切換畫面">
+    <button class="prod" role="tab" data-prod="query" aria-selected="true"><span class="pk">查</span>店家查詢</button>
+    <button class="prod" role="tab" data-prod="cig" aria-selected="false"><span class="pk">菸</span>菸架購貨</button>
+    <button class="prod" role="tab" data-prod="beer" aria-selected="false"><span class="pk">啤</span>啤酒五大陳列</button>
+    <button class="prod" role="tab" data-prod="liq" aria-selected="false"><span class="pk">陳</span>酒特陳架</button>
+    <button class="prod" role="tab" data-prod="perf" aria-selected="false"><span class="pk">績</span>全品項業績</button>
+  </nav>
+
+  
+
+  <section id="lock" class="lock" hidden>
+    <form id="lockForm" class="lockbox" autocomplete="on">
+      <h2>請輸入密碼</h2>
+      <p class="hint">這是北部營業處內部資料，輸入密碼後才會顯示。</p>
+      <input type="text" name="username" value="傳統通路戰情表" autocomplete="username" hidden>
+      <input type="password" id="lockPw" name="password" autocomplete="current-password" placeholder="密碼" required>
+      <button class="btn primary" type="submit" id="lockBtn">進入</button>
+      <div class="msg" id="lockMsg" role="status"></div>
+    </form>
+  </section>
+  <section id="secQuery" class="stack">
+    <div id="query"><div class="loading" style="padding:20px 0">正在載入資料…</div></div>
+    <div id="qres"></div>
+  </section>
+  <div id="app" hidden></div>
+</div>
+
+<script>
+// 解析「傳統菸架客戶購貨進度表」：輸入 {工作表名: 二維陣列}，輸出戰情表資料
+// 欄位一律用表頭文字找，不寫死欄位字母，避免明年欄位位移就壞掉
+function parseCigWorkbook(sheets) {
+  const norm = v => (v == null ? '' : String(v)).replace(/[\s　]/g, '');
+  const num = v => { const n = typeof v === 'number' ? v : parseFloat(String(v ?? '').replace(/,/g, '')); return isFinite(n) ? n : 0; };
+  const txt = v => (v == null ? '' : String(v)).replace(/　/g, ' ').trim();
+  const names = Object.keys(sheets);
+  const find = re => names.find(n => re.test(n.replace(/\s/g, '')));
+
+  const detName = find(/購貨進度明細/);
+  if (!detName) throw new Error('找不到「購貨進度明細表」工作表');
+  const det = sheets[detName];
+  const hIdx = det.findIndex(r => r && r.some(c => norm(c) === '客戶代號'));
+  if (hIdx < 0) throw new Error('明細表找不到「客戶代號」表頭');
+  const H = det[hIdx].map(norm);
+  const col = (re, from = 0) => { for (let i = from; i < H.length; i++) if (re.test(H[i])) return i; return -1; };
+  const need = (re, label, from) => { const i = col(re, from); if (i < 0) throw new Error('明細表缺少欄位：' + label); return i; };
+
+  const qCols = []; H.forEach((h, i) => { if (/Q\d菸品購值/.test(h)) qCols.push(i); });
+  if (qCols.length < 2) throw new Error('明細表缺少季購值欄位（如 114 Q4菸品購值）');
+  const C = {
+    no: col(/^編號$/), cancel: col(/^解約月份$/), office: need(/^營業所$/, '營業所'),
+    name: need(/^客戶名稱$/, '客戶名稱'), id: need(/^客戶代號$/, '客戶代號'), chain: col(/系統店|連鎖/),
+    biz: col(/^業態/), size: col(/^坪數/), addr: col(/^地址$/), type: need(/^簽約型態/, '簽約型態'),
+    items: col(/陳列品項數/), excl: col(/額外獨佔菸格/), cells: col(/格數合計/),
+    target: need(/^簽約目標量$/, '簽約目標量'),
+    rwD: col(/菸架獎勵\(一般陳列\)/), rwE: col(/菸架獎勵\(獨佔菸格\)/), rwF: col(/菸架獎勵\(系列陳列\)/), rwG: col(/^獎勵合計/),
+    rep: col(/負責訪員/), buy: need(/^本月購貨數$/, '本月購貨數'), amt: col(/BW購貨金額/),
+    promo: col(/推廣品購貨數量/), qPrev: qCols[0], qCur: qCols[1], qBuy: col(/^本季購貨數/),
+  };
+  const seriesCols = [];
+  const rwG = C.rwG, seriesFrom = C.rep >= 0 ? C.rep + 1 : 0;
+  for (let i = seriesFrom; i < Math.min(seriesFrom + 6, H.length); i++) if (/^【|全陳列|風味菸/.test(H[i])) seriesCols.push(i);
+  const seriesLabel = i => { const raw = String(det[hIdx][i]).replace(/\s+/g, ''); const m = raw.match(/【(.+?)】([\s\S]*)/); return (m ? m[1] + '：' + m[2] : raw).replace(/\(符合者打"?V"?\)/, '').replace(/^\((.*)\)$/, '$1').replace(/：\((.*)\)$/, '：$1'); };
+  const qLabel = i => { const m = String(det[hIdx][i]).match(/(\d+)\s*Q\s*(\d)/); return m ? m[1] + ' Q' + m[2] : txt(det[hIdx][i]); };
+  const excludeNote = (() => { const m = H[C.qBuy]?.match(/\((排除.+?)\)/); return m ? m[1] : ''; })();
+
+  const typeOf = v => { const t = norm(v); if (/S/i.test(t)) return '自有S'; if (/A/i.test(t)) return '自有A'; if (/二位/.test(t)) return '二位'; return t || '未填'; };
+  const BIZ = { 1: '超市', 2: '傳統雜貨店', 3: '便利商店', 4: '菸酒專', 5: '五金百貨', 6: '農漁會', 7: '其他' };
+
+  const stores = [];
+  for (let r = hIdx + 1; r < det.length; r++) {
+    const row = det[r]; if (!row) continue;
+    const id = txt(row[C.id]);
+    if (!/^\d{4}-\d+$/.test(id)) continue;
+    const g = i => (i >= 0 ? row[i] : null);
+    const type = typeOf(g(C.type));
+    const target = num(g(C.target)), buy = num(g(C.buy));
+    const qPrev = num(g(C.qPrev)), qCur = num(g(C.qCur)), qBuy = Math.floor(num(g(C.qBuy)));
+    const promo = Math.floor(num(g(C.promo)));
+    const series = seriesCols.filter(i => txt(row[i])).map(seriesLabel);
+    const rate = target > 0 ? buy / target : 0;
+    const own = type !== '二位';
+    const qRate = qPrev > 0 ? qCur / qPrev : 0;
+    stores.push({
+      no: num(g(C.no)) || stores.length + 1, id, name: txt(g(C.name)).replace(/^V(?=\S)/, ''), office: txt(g(C.office)),
+      cancel: txt(g(C.cancel)), chain: txt(g(C.chain)), biz: BIZ[num(g(C.biz))] || '', size: num(g(C.size)), addr: txt(g(C.addr)),
+      type, rep: txt(g(C.rep)), items: num(g(C.items)), excl: num(g(C.excl)), cells: num(g(C.cells)),
+      target, rwD: num(g(C.rwD)), rwE: num(g(C.rwE)), rwF: num(g(C.rwF)), rwG: num(g(rwG)), series,
+      buy, amt: num(g(C.amt)), rate,
+      gap100: Math.max(0, target - buy),
+      cap: own ? target * 1.7 : null, gapCap: own ? Math.max(0, target * 1.7 - buy) : null,
+      promo, promoOk: own ? promo >= 2 : null,
+      qPrev, qCur, qRate, qGap: Math.max(0, qPrev - qCur), qBuy, qBonus: qRate >= 1 ? qBuy * 5 : 0,
+      audit: null,
+    });
+  }
+  if (!stores.length) throw new Error('明細表沒有讀到任何客戶資料');
+
+  // 查核進度（選用）
+  const audName = find(/查核進度/);
+  if (audName) {
+    const a = sheets[audName];
+    const ah = a.findIndex(r => r && r.some(c => norm(c) === '客戶代號') && r.some(c => /查核進度/.test(norm(c))));
+    if (ah >= 0) {
+      const AH = a[ah].map(norm);
+      const ci = AH.indexOf('客戶代號'), pi = AH.findIndex(h => /查核進度/.test(h)), qi = AH.findIndex(h => /合格/.test(h));
+      const map = {};
+      for (let r = ah + 1; r < a.length; r++) {
+        const row = a[r]; if (!row) continue; const id = txt(row[ci]); if (!/^\d{4}-\d+$/.test(id)) continue;
+        const p = norm(row[pi]), q = norm(row[qi]);
+        map[id] = (p === 'v' || p === 'V') ? (q === '不合格' ? '不合格' : '合格') : '未查核';
+      }
+      stores.forEach(s => { s.audit = map[s.id] || '未查核'; });
+    }
+  }
+
+  // 資料日期：總表內「截至1007止」
+  let asOf = '';
+  const sumName = find(/購貨總表/);
+  const scan = sumName ? sheets[sumName] : det.slice(0, 5);
+  outer: for (const row of scan.slice(0, 6)) for (const c of row || []) { const m = String(c ?? '').match(/截至\s*(\d{3,4})/); if (m) { asOf = m[1]; break outer; } }
+  let title = '';
+  for (const row of (sumName ? sheets[sumName] : det).slice(0, 2)) for (const c of row || []) if (!title && /進度表/.test(String(c ?? ''))) title = txt(c).replace(/\s+/g, ' ');
+
+  const offices = [];
+  stores.forEach(s => { if (!offices.includes(s.office)) offices.push(s.office); });
+  const out = {
+    title, asOf, qPrevLabel: qLabel(C.qPrev), qCurLabel: qLabel(C.qCur), excludeNote,
+    seriesLabels: seriesCols.map(seriesLabel), offices, stores, hasAudit: stores.some(s => s.audit),
+    builtAt: new Date().toISOString(),
+  };
+  return JSON.parse(JSON.stringify(out, (k, v) => typeof v === 'number' && !Number.isInteger(v) ? Math.round(v * 1000) / 1000 : v));
+}
+
+
+// 解析「啤酒傳統店家商化管理活動 購貨進度」：輸入 {工作表名: 二維陣列}
+// 獎勵一律依 115 年規定自行計算，不依賴表內的獎勵欄（那些欄常為貼上值）
+const BEER_RULES = {
+  contracts: {
+    zone:   {label: '專區落地',   th: 30000, reward: 48, rewardTxt: '2 箱'},
+    end:    {label: '單座端架',   th: 30000, reward: 24, rewardTxt: '1 箱'},
+    s20:    {label: '20 箱落地',  th: 20000, reward: 12, rewardTxt: '2 手'},
+    s30:    {label: '30 箱落地',  th: 30000, reward: 24, rewardTxt: '1 箱'},
+    small:  {label: '小型陳列架', th: 20000, reward: 12, rewardTxt: '2 手'},
+    fridge: {label: '冰箱黃金',   th: 30000, reward: 24, rewardTxt: '1 箱'},
+  },
+  buyStep: 30000, fridgeBuyCap: 2,
+  yearTiers: [1.05, 1.10, 1.15],
+  yearReward: {'C': [2, 3, 4], 'B': [6, 8, 10], 'A': [15, 20, 25]},
+};
+
+function parseBeerWorkbook(sheets) {
+  const norm = v => (v == null ? '' : String(v)).replace(/[\s　]/g, '');
+  const num = v => { const n = typeof v === 'number' ? v : parseFloat(String(v ?? '').replace(/,/g, '')); return isFinite(n) ? n : 0; };
+  const txt = v => (v == null ? '' : String(v)).replace(/　/g, ' ').trim();
+  const names = Object.keys(sheets);
+  const find = re => names.find(n => re.test(n.replace(/\s/g, '')));
+  const office = v => txt(v).replace(/營業所$/, '').replace(/所$/, '');
+
+  /* 月購貨進度 */
+  const pName = find(/^購貨進度$/) || find(/購貨進度/);
+  if (!pName) throw new Error('找不到「購貨進度」工作表');
+  const P = sheets[pName];
+  const h0 = P.findIndex(r => r && r.some(c => norm(c) === '店家名稱') && r.some(c => /BW代號/.test(norm(c))));
+  if (h0 < 0) throw new Error('購貨進度表找不到「店家名稱」「BW代號」表頭');
+  // 多列表頭：每列往右補齊合併儲存格，再把同一欄上下的文字串成路徑
+  const W = Math.max(...P.slice(h0, h0 + 6).map(r => (r || []).length));
+  const rowsH = P.slice(h0, h0 + 6).map(r => { const out = []; let last = ''; for (let c = 0; c < W; c++) { const v = norm(r?.[c]); if (v) last = v; out.push(v || last); } return out; });
+  const path = c => rowsH.map(r => r[c]);
+  const colOf = test => { for (let c = 0; c < W; c++) if (test(path(c), c)) return c; return -1; };
+  const has = (p, re) => p.some(s => re.test(s));
+  const join = c => P.slice(h0, h0 + 6).map(r => norm(r?.[c])).join('|');
+  const C = {
+    name: colOf(p => p[0] === '店家名稱'), id: colOf(p => /BW代號/.test(p[0])), office: colOf(p => p[0] === '簽約家數'),
+    zone: colOf(p => /參加活動/.test(p[0]) && has(p, /^專區/)),
+    end: colOf(p => /參加活動/.test(p[0]) && has(p, /^端架/)),
+    s20: colOf((p, c) => /參加活動/.test(p[0]) && /20箱/.test(join(c))),
+    s30: colOf((p, c) => /參加活動/.test(p[0]) && /30箱/.test(join(c))),
+    small: colOf((p, c) => /參加活動/.test(p[0]) && /小型陳列架/.test(join(c))),
+    fridge: colOf((p, c) => /參加活動/.test(p[0]) && /冰箱陳列/.test(join(c))),
+    pBottle: colOf(p => has(p, /^促銷購貨金額/) && p[p.length - 1] === '瓶裝'),
+    pCan: colOf(p => has(p, /^促銷購貨金額/) && p[p.length - 1] === '罐裝'),
+    nBottle: colOf((p, c) => has(p, /^無促銷/) && /瓶裝類/.test(join(c))),
+    nCan: colOf((p, c) => has(p, /^無促銷/) && /罐裝類/.test(join(c))),
+    nTotal: colOf((p, c) => /合計\(B\)/.test(join(c))),
+    total: colOf((p, c) => /當月總購值/.test(join(c))),
+    ret: colOf((p, c) => /銷退金額/.test(join(c))),
+    ly: colOf((p, c) => /去年同期購額/.test(join(c))),
+  };
+  ['name', 'id', 'nTotal'].forEach(k => { if (C[k] < 0) throw new Error('購貨進度表缺少欄位：' + {name: '店家名稱', id: 'BW代號', nTotal: '無促銷合計(B)'}[k]); });
+  if (C.office < 0) C.office = 1;
+
+  let lastOffice = '';
+  const stores = [];
+  for (let r = h0 + 6; r < P.length; r++) {
+    const row = P[r]; if (!row) continue;
+    const id = txt(row[C.id]);
+    if (!/^\d{4}-\d+$/.test(id)) continue;
+    if (txt(row[C.office])) lastOffice = office(row[C.office]);
+    const on = k => C[k] >= 0 && txt(row[C[k]]) !== '' && txt(row[C[k]]) !== '0';
+    const contracts = ['zone', 'end', 's20', 's30', 'small', 'fridge'].filter(on);
+    const promo = num(row[C.pBottle]) + num(row[C.pCan]);
+    const nonPromo = num(row[C.nTotal]);
+    const total = C.total >= 0 && row[C.total] != null && row[C.total] !== '' ? num(row[C.total]) : promo + nonPromo;
+    stores.push({
+      id, name: txt(row[C.name]).replace(/\((\d+月)?新[^)]*\)$/, '').trim(), rawName: txt(row[C.name]), office: lastOffice, contracts,
+      promoBottle: num(row[C.pBottle]), promoCan: num(row[C.pCan]), promo,
+      nonPromoBottle: num(row[C.nBottle]), nonPromoCan: num(row[C.nCan]), nonPromo, total,
+      returns: num(row[C.ret]), lastYear: num(row[C.ly]),
+    });
+  }
+  if (!stores.length) throw new Error('購貨進度表沒有讀到任何店家');
+
+  /* 年度達成 */
+  const yName = find(/年度達成/);
+  let yearAsOf = '';
+  if (yName) {
+    const Y = sheets[yName];
+    for (const row of Y.slice(0, 3)) for (const c of row || []) { const m = String(c ?? '').match(/截至\s*(\d{1,2}\/\d{1,2})/); if (m && !yearAsOf) yearAsOf = m[1]; }
+    const yh = Y.findIndex(r => r && r.some(c => norm(c) === '客戶代碼') && r.some(c => norm(c) === '分級'));
+    if (yh >= 0) {
+      const H = Y[yh].map(norm);
+      const ci = H.indexOf('客戶代碼'), gi = H.indexOf('分級');
+      const prev = H.findIndex(h => /^\d+年購額/.test(h)), base = H.findIndex(h => /同期基準/.test(h));
+      const cur = H.findIndex((h, i) => /^\d+年購額/.test(h) && i !== prev);
+      const prevLabel = (H[prev] || '').match(/^(\d+)年/)?.[1], curLabel = (H[cur] || '').match(/^(\d+)年/)?.[1];
+      const map = {};
+      for (let r = yh + 1; r < Y.length; r++) {
+        const row = Y[r]; if (!row) continue; const id = txt(row[ci]); if (!/^\d{4}-\d+$/.test(id)) continue;
+        const g = (txt(row[gi]).match(/([ABC])級/) || [])[1] || '';
+        map[id] = {grade: g, prevYear: num(row[prev]), base: base >= 0 ? num(row[base]) : Math.max(num(row[prev]), g === 'C' ? 360000 : 0), ytd: num(row[cur])};
+      }
+      stores.forEach(s => { s.year = map[s.id] || null; });
+      var yearLabels = {prev: prevLabel || '', cur: curLabel || ''};
+    }
+  }
+
+  /* 日期與標題 */
+  let title = '', asOf = '', month = '', region = '';
+  for (const row of P.slice(0, h0)) for (const c of row || []) {
+    const s = txt(c);
+    if (!title && /購貨進度/.test(s)) { title = s; const m = s.match(/(\d{1,2})\/(\d{1,2})(?:\s*(\d{1,2}:\d{2}))?/); if (m) asOf = `${+m[1]}/${m[2]}${m[3] ? ' ' + m[3] : ''}`; const mm = s.match(/-(\d{1,2})月購貨進度/); if (mm) month = mm[1]; }
+    const rg = s.match(/營業處[：:]\s*(\S+)/); if (rg) region = rg[1];
+  }
+  const offices = [];
+  stores.forEach(s => { if (!offices.includes(s.office)) offices.push(s.office); });
+  const out = {kind: 'beer', title, asOf, month, region, yearAsOf, yearLabels: yearLabels || {prev: '', cur: ''}, offices, stores, builtAt: new Date().toISOString()};
+  return JSON.parse(JSON.stringify(out, (k, v) => typeof v === 'number' && !Number.isInteger(v) ? Math.round(v * 100) / 100 : v));
+}
+
+/* 依規定計算單店獎勵（頁面與驗證共用） */
+function beerCalc(s) {
+  const R = BEER_RULES, cs = s.contracts, K = R.contracts;
+  const display = cs.filter(k => k !== 'fridge'), fridge = cs.includes('fridge');
+  // 購貨獎勵：只認列無促銷購貨，每滿 3 萬 1 箱；只簽冰箱者上限 2 箱；簽兩項不重複計算
+  const raw = Math.max(0, Math.floor(s.nonPromo / R.buyStep));
+  const capped = !display.length && fridge;
+  const buyBoxes = capped ? Math.min(R.fridgeBuyCap, raw) : raw;
+  const buyNext = capped && raw >= R.fridgeBuyCap ? null : s.nonPromo < 0 ? R.buyStep - s.nonPromo : R.buyStep - (s.nonPromo % R.buyStep);
+  // 陳列獎勵：以當月總購值判斷；簽兩項者門檻相加，不重複計算
+  const items = cs.map(k => ({key: k, ...K[k]}));
+  const sumTh = items.reduce((a, x) => a + x.th, 0);
+  let got = [];
+  if (items.length && s.total >= sumTh) got = items.map(x => x.key);
+  else if (items.length) { const ok = items.filter(x => s.total >= x.th).sort((a, b) => b.reward - a.reward); if (ok.length) got = [ok[0].key]; }
+  const displayCans = items.filter(x => got.includes(x.key)).reduce((a, x) => a + x.reward, 0);
+  const pushTarget = cs.length >= 2 ? 60000 : 30000;
+  // 年度達成
+  let year = null;
+  if (s.year) {
+    const y = s.year, rate = y.base ? y.ytd / y.base : 0, tbl = R.yearReward[y.grade] || [0, 0, 0];
+    let tier = -1; R.yearTiers.forEach((t, i) => { if (rate >= t) tier = i; });
+    year = {...y, rate, tier, boxes: tier >= 0 ? tbl[tier] : 0, table: tbl, gaps: R.yearTiers.map(t => Math.max(0, y.base * t - y.ytd))};
+  }
+  return {display, fridge, buyBoxes, buyNext, capped, items, got, sumTh, displayCans, displayGap: Math.max(0, sumTh - s.total), pushTarget, pushGap: Math.max(0, pushTarget - s.total), year};
+}
+
+// 解析「傳統酒類陳列簽約店家－購值追蹤」（酒特陳架）
+// 規則：每季活動品項購值 ≥ 3 萬（BW 開單含稅、不含瓶箱）且購買 ≥ 10 品項（排除米酒類），兩者都要符合
+const LIQ_RULES = {amt: 30000, items: 10, cost: 1260};
+function parseLiqWorkbook(sheets) {
+  const norm = v => (v == null ? '' : String(v)).replace(/[\s　]/g, '');
+  const txt = v => (v == null ? '' : String(v)).replace(/　/g, ' ').trim();
+  const num = v => { if (v == null || v === '') return null; const n = typeof v === 'number' ? v : parseFloat(String(v).replace(/,/g, '')); return isFinite(n) ? n : null; };
+  const names = Object.keys(sheets);
+  const tName = names.find(n => /購值追蹤/.test(n.replace(/\s/g, '')) && !/\(\d\)/.test(n)) || names.find(n => /購值追蹤/.test(n));
+  if (!tName) throw new Error('找不到「購值追蹤」工作表');
+  const T = sheets[tName];
+  const h = T.findIndex(r => r && r.some(c => /BW客戶代號/.test(norm(c))));
+  if (h < 0) throw new Error('購值追蹤表找不到「BW客戶代號」表頭');
+  const H = T[h].map(norm), S = (T[h + 1] || []).map(norm);
+  const W = Math.max(H.length, S.length);
+  const blockOf = []; let last = '';
+  for (let c = 0; c < W; c++) { if (H[c]) last = H[c]; blockOf.push(last); }
+  const items = [], amts = []; let sumCol = -1;
+  for (let c = 0; c < W; c++) {
+    const q = (S[c] || H[c] || '').match(/^Q([1-4])$/);
+    if (q) { if (/品項數/.test(blockOf[c])) items[+q[1] - 1] = c; else if (/開單金額|購值/.test(blockOf[c])) amts[+q[1] - 1] = c; }
+    if ((S[c] || H[c]) === '合計') sumCol = c;
+  }
+  const C = {office: H.findIndex(x => x === '營業所'), id: H.findIndex(x => /BW客戶代號/.test(x)), name: H.findIndex(x => /BW客戶名稱/.test(x))};
+  if (!amts.filter(x => x != null).length) throw new Error('購值追蹤表找不到各季開單金額（Q1～Q4）');
+
+  // 規則文字：「超過3萬元」「超過10品項」
+  const rules = {...LIQ_RULES};
+  for (const row of T.slice(0, h)) for (const c of row || []) {
+    const s = String(c ?? '');
+    const a = s.match(/購值超過\s*(\d+(?:\.\d+)?)\s*萬/); if (a) rules.amt = +a[1] * 10000;
+    const b = s.match(/購買超過\s*(\d+)\s*品項/); if (b) rules.items = +b[1];
+  }
+  let title = '', asOf = '';
+  for (const c of T[0] || []) { const s = txt(c); if (s && !title) { title = s; const m = s.match(/截至\s*(\d{1,2}\/\d{1,2})/); if (m) asOf = m[1]; } }
+
+  const stores = [];
+  let lastOffice = '';
+  for (let r = h + 2; r < T.length; r++) {
+    const row = T[r]; if (!row) continue;
+    const id = txt(row[C.id]); if (!/^\d{4}-\d+$/.test(id)) continue;
+    if (txt(row[C.office])) lastOffice = txt(row[C.office]).replace(/營業所$/, '').replace(/所$/, '');
+    stores.push({id, name: txt(row[C.name]), office: lastOffice,
+      items: [0, 1, 2, 3].map(i => items[i] != null ? num(row[items[i]]) : null),
+      amts: [0, 1, 2, 3].map(i => amts[i] != null ? num(row[amts[i]]) : null)});
+  }
+  if (!stores.length) throw new Error('購值追蹤表沒有讀到任何店家');
+  // 目前季：有開單金額資料的最後一季
+  let curQ = 0; for (let q = 0; q < 4; q++) if (stores.some(s => s.amts[q] != null && s.amts[q] !== 0)) curQ = q + 1;
+
+  // 活動品項表（選用）
+  const pName = names.find(n => /活動品項/.test(n));
+  const products = [];
+  if (pName) {
+    let cat = '';
+    for (const row of sheets[pName] || []) {
+      if (!row) continue;
+      if (txt(row[0]) && !/產品類別|品項表/.test(txt(row[0]))) cat = txt(row[0]);
+      const nm = txt(row[3]); if (!nm || nm === '產品名稱' || typeof row[1] !== 'number' && !/^\d+$/.test(txt(row[1]))) continue;
+      let g = products.find(x => x.cat === cat); if (!g) products.push(g = {cat, items: []});
+      g.items.push(nm);
+    }
+  }
+  const year = (title.match(/(\d{3})年/) || [])[1] || '';
+  return {kind: 'liq', title, year, asOf, curQ, rules, stores, products, builtAt: new Date().toISOString()};
+}
+function liqCalc(s, R, curQ = 4) {
+  const q = (i) => {
+    const a = s.amts[i], n = s.items[i];
+    if (i >= curQ || (a == null && n == null)) return null;
+    const okA = (a || 0) >= R.amt, okN = (n || 0) >= R.items;
+    return {amt: a || 0, items: n || 0, okA, okN, ok: okA && okN, gapA: Math.max(0, R.amt - (a || 0)), gapN: Math.max(0, R.items - (n || 0)), cost: a ? R.cost / a : null};
+  };
+  const qs = [0, 1, 2, 3].map(q);
+  return {qs, missed: qs.filter(x => x && !x.ok).length, total: s.amts.reduce((t, v) => t + (v || 0), 0)};
+}
+
+// 解析「BW-SD9900 銷售萬用報表」明細版：客戶 × 物料 × 曆月（每月三欄：開單金額／銷售單位／基礎單位）
+// 一份檔案可含多個年份工作表（例如 2025、2026）；金額為 BW 未稅開單金額（元）
+const LIQ_CODES = [["23C232-14",1,"高粱酒類"],["23C2A1-14",2,"高粱酒類"],["23C2A0-14",3,"高粱酒類"],["231155-14",4,"高粱酒類"],["231101-14",5,"高粱酒類"],["23PF00-14",6,"高粱酒類"],["255701-14",7,"藥味酒類"],["255600-14",8,"藥味酒類"],["255705-14",9,"藥味酒類"],["255700-14",9,"藥味酒類"],["23L001-14",10,"藥味酒類"],["23K901-14",11,"藥味酒類"],["255601-14",12,"藥味酒類"],["255501-14",13,"藥味酒類"],["255301-14",14,"藥味酒類"],["255201-14",15,"藥味酒類"],["21JS00-14",16,"清酒"],["21JS02-14",16,"清酒"],["21K105-14",17,"清酒"],["217000-14",18,"清酒"],["21J010-14",19,"黃酒"],["21JR10-14",20,"黃酒"],["21JQ10-14",21,"黃酒"],["211070-14",22,"黃酒"],["21JM00-14",23,"黃酒"],["217510-14",24,"黃酒"],["224172-14",25,"葡萄酒類"],["222002-14",26,"葡萄酒類"],["223762-14",27,"葡萄酒類"],["6700164-66",28,"葡萄酒類"],["222412-14",29,"葡萄酒類"],["221502-14",30,"葡萄酒類"],["221600-14",31,"葡萄酒類"],["6623100-66",32,"葡萄酒類"],["6623102-66",33,"葡萄酒類"],["6623101-66",34,"葡萄酒類"],["242200-14",35,"白蘭地"],["2401A0-14",36,"白蘭地"],["237927-14",37,"威士忌類"],["2318D0-14",38,"威士忌類"],["23A112-14",39,"威士忌類"],["23NH00-14",40,"威士忌類"],["23PD07-14",41,"威士忌類"],["23PD17-14",42,"威士忌類"],["240302-14",43,"其他類"],["2406A2-14",44,"其他類"],["23019000-14",45,"其他類"],["23019001-14",46,"其他類"],["23019002-14",47,"其他類"],["23019003-14",48,"其他類"],["23019004-14",49,"其他類"],["23H800-14",50,"米酒類"]];
+const BW_DEPTS = ['菸類', '酒類', '啤酒', '食品及綜合', '生技'];
+function parseBwDetail(sheets, liqCodes = LIQ_CODES) {
+  const norm = v => (v == null ? '' : String(v)).replace(/[\s　]/g, '');
+  const txt = v => (v == null ? '' : String(v)).replace(/　/g, ' ').trim();
+  const num = v => { if (v == null || v === '') return 0; const n = typeof v === 'number' ? v : parseFloat(String(v).replace(/,/g, '')); return isFinite(n) ? n : 0; };
+  const liqSet = new Map(liqCodes.map(([c, n, cat]) => [c, {n, cat}]));
+  const years = [];
+  let refreshed = '', range = '';
+  for (const [name, rows] of Object.entries(sheets)) {
+    const yr = rows.findIndex(r => r && r.some(c => norm(c) === '曆年') && r.some(c => /^\d{4}$/.test(norm(c))));
+    if (yr < 0) continue;
+    const Y = rows[yr], Mo = rows[yr + 2] || [], Mt = rows[yr + 3] || [];
+    const hr = rows.findIndex((r, i) => i > yr && r && r.some(c => norm(c) === '客戶') && r.some(c => /物料/.test(norm(c))));
+    if (hr < 0) continue;
+    const H = rows[hr].map(norm);
+    const C = {off: H.findIndex(x => /^營業所/.test(x)), id: H.indexOf('客戶'), dept: H.indexOf('產品部門'), mat: H.findIndex(x => /^物料/.test(x))};
+    if (C.id < 0 || C.mat < 0) continue;
+    const amtCols = [];
+    for (let c = 0; c < Y.length; c++) {
+      const y = parseInt(norm(Y[c])), m = parseInt(norm(Mo[c]));
+      if (y > 1900 && m >= 1 && m <= 12 && /金額/.test(norm(Mt[c]))) amtCols.push({c, y, m});
+    }
+    if (!amtCols.length) continue;
+    let rf = '', rg = '';
+    for (const r of rows.slice(0, hr)) for (let i = 0; i < (r || []).length; i++) {
+      const k = norm(r[i]);
+      if (/最後重新整理/.test(k)) { const v = r[i + 1]; if (typeof v === 'number') { const d = new Date(Math.round((v - 25569) * 864e5)); rf = `${d.getUTCFullYear()}/${d.getUTCMonth() + 1}/${d.getUTCDate()} ${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`; } else rf = txt(v).replace(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2}).*/, (m, a, b, c, t) => `${a}/${+b}/${+c} ${t}`); }
+      if (k === '曆日') rg = txt(r[i + 1]);
+    }
+    years.push({name, rows, hr, C, amtCols, year: Math.max(...amtCols.map(x => x.y)), refreshed: rf, range: rg});
+  }
+  if (!years.length) throw new Error('找不到 BW 明細：需要「曆年」「曆月」「開單金額」表頭，以及「客戶」「物料」欄');
+  years.sort((a, b) => b.year - a.year);
+  const cur = years[0], prev = years.find(y => y.year === cur.year - 1);
+  refreshed = (cur.refreshed || '').replace(/(\d{1,2}:\d{2}):\d{2}$/, '$1'); range = cur.range;
+
+  const cust = {};
+  const dIdx = d => { const i = BW_DEPTS.indexOf(d); return i >= 0 ? i : BW_DEPTS.length; };
+  const get = (id, name, office) => cust[id] ??= {id, name, office, y: {}, p: {}, prods: {}, la: [0, 0, 0, 0], ln: [new Set(), new Set(), new Set(), new Set()]};
+  let maxMonth = 0;
+  for (const part of [cur, prev].filter(Boolean)) {
+    const isCur = part === cur, {rows, hr, C, amtCols} = part;
+    for (let r = hr + 1; r < rows.length; r++) {
+      const row = rows[r]; if (!row) continue;
+      const id = txt(row[C.id]); if (!/^\d{4}-\d+$/.test(id)) continue;
+      const c = get(id, txt(row[C.id + 1]), txt(row[C.off]).replace(/營業所$|展售中心$/, ''));
+      if (!c.name) c.name = txt(row[C.id + 1]);
+      const dept = txt(row[C.dept]) || '其他', mat = txt(row[C.mat]), matName = txt(row[C.mat + 1]);
+      const bucket = isCur ? c.y : c.p;
+      const arr = bucket[dept] ??= Array(12).fill(0);
+      const liq = isCur ? liqSet.get(mat) : null;
+      let rowYtd = 0;
+      for (const {c: col, y, m} of amtCols) {
+        if (y !== part.year) continue;
+        const v = num(row[col]); if (!v) continue;
+        arr[m - 1] += v; rowYtd += v;
+        if (isCur && m > maxMonth) maxMonth = m;
+        if (liq) { const q = Math.floor((m - 1) / 3); c.la[q] += v; c.ln[q].add(mat); }
+      }
+      if (isCur && rowYtd) {
+        const p = c.prods[mat] ??= {name: matName, dept, ytd: 0, m: Array(12).fill(0)};
+        p.ytd += rowYtd;
+        for (const {c: col, y, m} of amtCols) if (y === part.year) p.m[m - 1] += num(row[col]);
+      }
+    }
+  }
+  const r0 = v => Math.round(v);
+  const customers = Object.values(cust).map(c => {
+    const pack = o => Object.fromEntries(Object.entries(o).filter(([, a]) => a.some(v => Math.abs(v) >= 1)).map(([k, a]) => [k, a.map(r0)]));
+    const top = Object.values(c.prods).sort((a, b) => b.ytd - a.ytd).slice(0, 8).map(p => [p.name, p.dept, r0(p.ytd), r0(p.m[maxMonth - 1] || 0)]);
+    const out = {id: c.id, name: c.name.replace(/\s+/g, ' '), office: c.office, y: pack(c.y), p: pack(c.p), top};
+    if (c.la.some(v => v)) out.liq = {a: c.la.map(r0), n: c.ln.map(s => s.size)};
+    return out;
+  }).filter(c => Object.keys(c.y).length || Object.keys(c.p).length);
+  const offices = [];
+  customers.slice().sort((a, b) => a.id.localeCompare(b.id)).forEach(c => { if (c.office && !offices.includes(c.office)) offices.push(c.office); });
+  const depts = [...BW_DEPTS, ...new Set(customers.flatMap(c => [...Object.keys(c.y), ...Object.keys(c.p)]).filter(d => !BW_DEPTS.includes(d)))];
+  return {kind: 'perf2', year: cur.year, prevYear: prev ? prev.year : null, month: maxMonth, refreshed, range, depts, offices, customers, builtAt: new Date().toISOString()};
+}
+
+</script>
+<script>
+/* 戰情表資料加密：PBKDF2-SHA256（25 萬次）導出金鑰，AES-GCM 256 加密，先 gzip 壓縮 */
+const TWCrypt = (() => {
+  const te = new TextEncoder(), td = new TextDecoder();
+  const b64 = u8 => { let s = ''; for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000)); return btoa(s); };
+  const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  const pipe = async (u8, ts) => new Uint8Array(await new Response(new Blob([u8]).stream().pipeThrough(ts)).arrayBuffer());
+  async function key(pw, salt, iter) {
+    const k = await crypto.subtle.importKey('raw', te.encode(pw), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({name: 'PBKDF2', salt, iterations: iter, hash: 'SHA-256'}, k, {name: 'AES-GCM', length: 256}, false, ['encrypt', 'decrypt']);
+  }
+  async function encrypt(obj, pw) {
+    const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12)), iter = 250000;
+    let data = te.encode(JSON.stringify(obj)), z = 0;
+    if (typeof CompressionStream !== 'undefined') { data = await pipe(data, new CompressionStream('gzip')); z = 1; }
+    const ct = new Uint8Array(await crypto.subtle.encrypt({name: 'AES-GCM', iv}, await key(pw, salt, iter), data));
+    return {enc: 'tw-aesgcm-v1', iter, z, salt: b64(salt), iv: b64(iv), data: b64(ct)};
+  }
+  async function decrypt(w, pw) {
+    const pt = new Uint8Array(await crypto.subtle.decrypt({name: 'AES-GCM', iv: unb64(w.iv)}, await key(pw, unb64(w.salt), w.iter), unb64(w.data)));
+    return JSON.parse(td.decode(w.z ? await pipe(pt, new DecompressionStream('gzip')) : pt));
+  }
+  const isEnc = o => !!o && o.enc === 'tw-aesgcm-v1';
+  return {encrypt, decrypt, isEnc};
+})();
+
+</script>
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const f0 = n => (n == null || !isFinite(n)) ? '—' : Math.round(n).toLocaleString('zh-TW');
+const f1 = n => (n == null || !isFinite(n)) ? '—' : (Math.round(n * 10) / 10).toLocaleString('zh-TW', {maximumFractionDigits: 1});
+const pct = (n, d = 1) => (n == null || !isFinite(n)) ? '—' : (n * 100).toFixed(d) + '%';
+const wan = n => (n == null || !isFinite(n)) ? '—' : (n / 10000).toLocaleString('zh-TW', {maximumFractionDigits: 1}) + ' 萬';
+const boxTxt = cans => { if (!cans) return '0 箱'; const b = Math.floor(cans / 24), r = cans % 24, h = r / 6; return (b ? b + ' 箱' : '') + (h ? (b ? ' ' : '') + h + ' 手' : ''); };
+const store = {get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }};
+
+let DC = null, DB = null, DP = null, DL = null, pending = null;
+const S = {prod: 'cig'};
+const VC = {tab: 'office', office: '', rep: '', types: new Set(), flag: '', q: '', sort: 'rate', sel: null};
+const VB = {tab: 'office', office: '', grades: new Set(), cons: new Set(), flag: '', q: '', sort: 'year', sel: null};
+const st = () => S.prod === 'beer' ? VB : S.prod === 'perf' ? VP : S.prod === 'liq' ? VL : VC;
+S.prod = 'query';
+
+/* ── 共用：狀態、進度尺、分頁 ── */
+function status(rate, p, done = 1) {
+  if (rate >= done) return {cls: 'good', txt: '已達標'};
+  if (p != null && rate >= p * done) return {cls: 'warn', txt: '進度正常'};
+  return {cls: 'bad', txt: '落後'};
+}
+const rateColor = (r, p, done = 1) => `var(--${status(r, p, done).cls})`;
+function meter(rate, ticks, paceAt, paceLabel, max, color) {
+  const P = r => Math.min(100, Math.max(0, r / max * 100));
+  return `<div class="meter"><div class="track">
+    <div class="fill" style="width:${P(rate)}%;background:${color}"></div>
+    ${ticks.map(([r, l]) => `<div class="tick" style="left:${P(r)}%"></div><span class="tlab" style="left:${P(r)}%">${l}</span>`).join('')}
+    ${paceAt != null ? `<div class="tick pace" style="left:${P(paceAt)}%"></div><span class="tlab below pace" style="left:${P(paceAt)}%">${paceLabel}</span>` : ''}
+  </div></div>`;
+}
+function tabsHtml(v) {
+  return `<div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="office" aria-selected="${v.tab === 'office'}">營業所總覽</button>
+    <button class="tab" role="tab" data-tab="store" aria-selected="${v.tab === 'store'}">追蹤名單</button></div>`;
+}
+function bindCommon() {
+  $$('[data-tab]').forEach(b => b.onclick = () => { st().tab = b.dataset.tab; store.set('tw.tab.' + S.prod, st().tab); render(); });
+  $$('tbody tr[data-office]').forEach(tr => {
+    const go = () => { const v = st(); v.office = tr.dataset.office; v.sel = null; v.tab = 'store'; if (v.rep != null) v.rep = ''; render(); window.scrollTo({top: 0}); };
+    tr.addEventListener('click', go);
+    tr.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  });
+}
+function bindList(cardFn, list) {
+  $$('.row').forEach(b => b.onclick = () => {
+    st().sel = b.dataset.id;
+    $$('.row').forEach(x => x.setAttribute('aria-current', x === b));
+    $('#card').innerHTML = cardFn(list.find(s => s.id === st().sel));
+    if (window.matchMedia('(max-width:900px)').matches) $('#card').scrollIntoView({behavior: 'smooth', block: 'start'});
+  });
+}
+function bindSearch(v) {
+  let t; $('#fQ').oninput = e => { clearTimeout(t); t = setTimeout(() => { v.q = e.target.value; v.sel = null; render(); const i = $('#fQ'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }, 220); };
+}
+const chip = (attr, val, label, on) => `<button class="chip" ${attr}="${esc(val)}" aria-pressed="${on}">${esc(label)}</button>`;
+const noData = what => `<div class="card"><div class="empty" style="padding:48px 16px">還沒有${what}資料。${canWrite ? '按右上角「更新資料」上傳 Excel。' : '請管理者上傳 Excel。'}</div></div>`;
+
+/* ════════════ 菸架 ════════════ */
+const TYPES = ['二位', '自有A', '自有S'];
+const TYPE_GOAL = {'二位': 1.2, '自有A': 1.35, '自有S': 1.35};
+let paceC = {m: null, q: null, label: '—'};
+function cigPace(d) {
+  const m = String(d.asOf || '').match(/^(\d{1,2})(\d{2})$/);
+  const y = (String(d.title).match(/(\d{3})年/) || [])[1];
+  if (!m) return {m: null, q: null, label: d.asOf || '—'};
+  const mon = +m[1], day = +m[2], yr = y ? +y + 1911 : new Date().getFullYear();
+  const dim = new Date(yr, mon, 0).getDate(), qs = Math.floor((mon - 1) / 3) * 3;
+  const qStart = new Date(yr, qs, 1), qEnd = new Date(yr, qs + 3, 0), now = new Date(yr, mon - 1, day);
+  return {m: Math.min(1, day / dim), q: Math.min(1, ((now - qStart) / 864e5 + 1) / ((qEnd - qStart) / 864e5 + 1)), label: `${y ? y + '年' : ''}${mon}/${String(day).padStart(2, '0')}`};
+}
+function cAgg(list) {
+  const a = {n: list.length, t: 0, b: 0, audited: 0, qPrev: 0, qCur: 0, hit: 0, by: {}};
+  TYPES.forEach(t => a.by[t] = {n: 0, t: 0, b: 0});
+  for (const s of list) {
+    a.t += s.target; a.b += s.buy; a.qPrev += s.qPrev; a.qCur += s.qCur;
+    if (s.audit === '合格' || s.audit === '不合格') a.audited++;
+    if (s.rate >= 1) a.hit++;
+    const g = a.by[s.type]; if (g) { g.n++; g.t += s.target; g.b += s.buy; }
+  }
+  a.rate = a.t ? a.b / a.t : 0;
+  TYPES.forEach(t => { const g = a.by[t]; g.rate = g.t ? g.b / g.t : null; });
+  return a;
+}
+function teamPts(a) {
+  const overall = a.rate >= 1.295 ? 3 : a.rate >= 1.2 ? 2 : 0;
+  const ok = TYPES.map(t => a.by[t].rate != null && a.by[t].rate >= TYPE_GOAL[t]);
+  return {overall, typePts: ok.reduce((s, x) => s + (x ? 2 : 0), 0) + (ok.every(Boolean) ? 2 : 0)};
+}
+function cStrip(a) {
+  const qr = a.qPrev ? a.qCur / a.qPrev : 0;
+  return `<div class="strip">
+    <div class="stat"><span class="k">菸架客戶</span><span class="v">${f0(a.n)}<small>家</small></span><span class="s">${DC.offices.length} 個營業所・已達標 ${f0(a.hit)} 家</span></div>
+    <div class="stat"><span class="k">本月購貨／目標</span><span class="v">${f0(a.b)}<small>/ ${f0(a.t)} 條</small></span><span class="s">達 100% 尚差 ${f0(Math.max(0, a.t - a.b))} 條</span></div>
+    <div class="stat"><span class="k">整體達成率</span><span class="v" style="color:${rateColor(a.rate, paceC.m)}">${pct(a.rate)}</span><span class="s">時間進度 ${pct(paceC.m, 0)}・努力目標 120%</span></div>
+    <div class="stat"><span class="k">${esc(DC.qCurLabel)} 季購值達成</span><span class="v" style="color:${rateColor(qr, paceC.q)}">${pct(qr)}</span><span class="s">對比 ${esc(DC.qPrevLabel)}・季進度 ${pct(paceC.q, 0)}</span></div>
+  </div>`;
+}
+function barCell(r, p, max = 1.3, done = 1) {
+  const w = Math.min(100, (r || 0) / max * 100);
+  return `<span class="bar"><i><b style="width:${w}%;background:${rateColor(r, p, done)}"></b></i><span class="num">${pct(r)}</span></span>`;
+}
+const gap = (t, b, k) => { const g = t * k - b; return g <= 0 ? '<span class="t-good">達成</span>' : f0(g); };
+function typeCell(g, t) {
+  if (!g.n) return `<td class="sep num hint">—</td><td class="num hint">—</td>`;
+  return `<td class="sep num">${f0(g.b)}<span class="hint"> / ${f0(g.t)}</span></td><td class="num ${g.rate >= TYPE_GOAL[t] ? 't-good' : ''}">${pct(g.rate)}</td>`;
+}
+function cigOffice() {
+  const all = cAgg(DC.stores);
+  const rows = DC.offices.map(o => {
+    const list = DC.stores.filter(s => s.office === o), a = cAgg(list), pt = teamPts(a);
+    return `<tr data-office="${esc(o)}" tabindex="0">
+      <td class="l"><span class="oname">${esc(o)}</span><span class="ocode mono">${(list[0]?.id || '').slice(0, 4)}</span></td>
+      <td class="num">${f0(a.n)}</td><td class="num">${f0(a.t)}</td><td class="num">${f1(a.b)}</td><td>${barCell(a.rate, paceC.m)}</td>
+      <td class="num">${gap(a.t, a.b, 1)}</td><td class="num">${gap(a.t, a.b, 1.2)}</td><td class="num">${gap(a.t, a.b, 1.3)}</td>
+      <td><span class="pts ${pt.overall ? 'on' : 'off'}">${pt.overall}</span></td>
+      ${TYPES.map(t => typeCell(a.by[t], t)).join('')}
+      <td class="sep"><span class="pts ${pt.typePts ? 'on' : 'off'}">${pt.typePts}</span></td>
+      ${DC.hasAudit ? `<td class="sep num">${f0(a.audited)}<span class="hint"> / ${f0(a.n)}</span></td><td class="num">${pct(a.n ? a.audited / a.n : 0, 0)}</td>` : ''}
+    </tr>`;
+  }).join('');
+  return `${cStrip(all)}${tabsHtml(VC)}
+    <div class="hint">點任一營業所，直接看該所的店家明細。達成率顏色：<span class="t-good">綠＝已達 100%</span>、<span class="t-warn">黃＝跟上時間進度</span>、<span class="t-bad">紅＝落後時間進度</span>。</div>
+    <div class="tablebox"><table>
+      <thead>
+        <tr><th class="l" rowspan="2">營業所</th><th rowspan="2">家數</th><th rowspan="2">月目標(條)</th><th rowspan="2">實際購貨(條)</th><th rowspan="2" class="l">整體達成率</th>
+          <th class="grp" colspan="3">尚差條數</th><th rowspan="2">積分</th>
+          <th class="grp" colspan="2">二位 ≥120%</th><th class="grp" colspan="2">自有A ≥135%</th><th class="grp" colspan="2">自有S ≥135%</th><th rowspan="2" class="sep">分型積分</th>
+          ${DC.hasAudit ? '<th class="grp" colspan="2">菸架查核</th>' : ''}</tr>
+        <tr><th>達100%</th><th>達120%</th><th>達130%</th>
+          <th class="sep">購貨/目標</th><th>達成率</th><th class="sep">購貨/目標</th><th>達成率</th><th class="sep">購貨/目標</th><th>達成率</th>
+          ${DC.hasAudit ? '<th class="sep">已查核</th><th>完成率</th>' : ''}</tr>
+      </thead>
+      <tbody>${rows}</tbody>
+      <tfoot><tr><td class="l">合計</td><td class="num">${f0(all.n)}</td><td class="num">${f0(all.t)}</td><td class="num">${f1(all.b)}</td><td>${barCell(all.rate, paceC.m)}</td>
+        <td class="num">${gap(all.t, all.b, 1)}</td><td class="num">${gap(all.t, all.b, 1.2)}</td><td class="num">${gap(all.t, all.b, 1.3)}</td><td></td>
+        ${TYPES.map(t => typeCell(all.by[t], t)).join('')}<td class="sep"></td>
+        ${DC.hasAudit ? `<td class="sep num">${f0(all.audited)}<span class="hint"> / ${f0(all.n)}</span></td><td class="num">${pct(all.n ? all.audited / all.n : 0, 0)}</td>` : ''}</tr></tfoot>
+    </table></div>${cigRules()}`;
+}
+const CFLAGS = [['behind', '落後時間進度'], ['notHit', '未達 100%'], ['promo', '自有推廣品未達 2 條'], ['quarter', '季購值未達'], ['audit', '尚未查核']];
+function cigFiltered() {
+  const v = VC, q = v.q.trim().toLowerCase();
+  let list = DC.stores.filter(s => (!v.office || s.office === v.office) && (!v.rep || s.rep === v.rep) && (!v.types.size || v.types.has(s.type)) &&
+    (!q || s.name.toLowerCase().includes(q) || s.id.includes(q) || s.addr.includes(q) || s.rep.includes(q)));
+  const f = v.flag;
+  if (f === 'behind') list = list.filter(s => s.rate < 1 && (paceC.m == null || s.rate < paceC.m));
+  if (f === 'notHit') list = list.filter(s => s.rate < 1);
+  if (f === 'promo') list = list.filter(s => s.promoOk === false);
+  if (f === 'quarter') list = list.filter(s => s.qRate < 1);
+  if (f === 'audit') list = list.filter(s => s.audit === '未查核');
+  const by = {rate: (a, b) => a.rate - b.rate, rateDesc: (a, b) => b.rate - a.rate, gap: (a, b) => b.gap100 - a.gap100, no: (a, b) => a.no - b.no};
+  return list.sort(by[v.sort] || by.rate);
+}
+function cigStore() {
+  const v = VC;
+  const reps = [...new Set(DC.stores.filter(s => !v.office || s.office === v.office).map(s => s.rep).filter(Boolean))];
+  if (v.rep && !reps.includes(v.rep)) v.rep = '';
+  const list = cigFiltered();
+  if (!v.sel || !list.some(s => s.id === v.sel)) v.sel = list[0]?.id || null;
+  const a = cAgg(list);
+  return `${cStrip(cAgg(DC.stores.filter(s => !v.office || s.office === v.office)))}${tabsHtml(v)}
+    <div class="filters">
+      <div class="field"><label for="fOffice">營業所</label><select id="fOffice"><option value="">全部營業所</option>${DC.offices.map(o => `<option ${o === v.office ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>
+      <div class="field"><label for="fRep">負責訪員</label><select id="fRep"><option value="">全部訪員</option>${reps.map(r => `<option ${r === v.rep ? 'selected' : ''}>${esc(r)}</option>`).join('')}</select></div>
+      <div class="field"><label for="fQ">搜尋</label><input type="search" id="fQ" placeholder="店名、客戶代號、地址" value="${esc(v.q)}"></div>
+      <div class="field"><span class="fl">簽約型態（可複選）</span><div class="chips">${TYPES.map(t => chip('data-type', t, t, v.types.has(t))).join('')}</div></div>
+      <div class="field"><span class="fl">只看需要追的店</span><div class="chips">${CFLAGS.filter(([k]) => k !== 'audit' || DC.hasAudit).map(([k, l]) => chip('data-flag', k, l, v.flag === k)).join('')}</div></div>
+    </div>
+    <div class="split">
+      <div class="list">
+        <div class="listhead"><span><b style="color:var(--ink)">${f0(list.length)}</b> 家・購貨 ${f0(a.b)} / ${f0(a.t)} 條・${pct(a.rate)}</span>
+          <select id="fSort" aria-label="排序"><option value="rate">達成率低→高</option><option value="rateDesc">達成率高→低</option><option value="gap">尚差條數多→少</option><option value="no">表單編號</option></select></div>
+        <div class="rows">${list.length ? list.map(cigRow).join('') : '<div class="empty">沒有符合條件的店家，試著放寬篩選。</div>'}</div>
+      </div>
+      <div id="card">${cigCard(DC.stores.find(s => s.id === v.sel))}</div>
+    </div>${cigRules()}`;
+}
+function cigBind() {
+  const v = VC;
+  if (!$('#fOffice')) return;
+  $('#fSort').value = v.sort;
+  $('#fOffice').onchange = e => { v.office = e.target.value; v.sel = null; render(); };
+  $('#fRep').onchange = e => { v.rep = e.target.value; v.sel = null; render(); };
+  $('#fSort').onchange = e => { v.sort = e.target.value; render(); };
+  bindSearch(v);
+  $$('[data-type]').forEach(b => b.onclick = () => { const k = b.dataset.type; v.types.has(k) ? v.types.delete(k) : v.types.add(k); v.sel = null; render(); });
+  $$('[data-flag]').forEach(b => b.onclick = () => { v.flag = v.flag === b.dataset.flag ? '' : b.dataset.flag; v.sel = null; render(); });
+  bindList(cigCard, DC.stores);
+}
+function cigRow(s) {
+  const t = status(s.rate, paceC.m);
+  return `<button class="row" data-id="${s.id}" aria-current="${s.id === VC.sel}">
+    <span class="n">${esc(s.name)}</span>
+    <span class="r"><span class="pill ${t.cls}">${pct(s.rate, 0)}</span><span class="num">${f1(s.buy)}/${f0(s.target)}</span></span>
+    <span class="m"><span class="mono">${s.id}</span>・${esc(s.type)}・${esc(s.rep)}</span></button>`;
+}
+function cigCard(s) {
+  if (!s) return `<div class="card"><div class="empty">從左邊清單選一家店，就會在這裡看到它的購貨進度、陳列獎勵和季目標試算。</div></div>`;
+  const t = status(s.rate, paceC.m), own = s.type !== '二位';
+  const needPace = paceC.m != null ? Math.max(0, s.target * paceC.m - s.buy) : 0;
+  const qst = status(s.qRate, paceC.q), seriesN = s.series.length;
+  const ticks = [[1, '100%'], own ? [1.7, '上限 170%'] : [1.2, '120%']];
+  return `<article class="card">
+    <div class="card-h">
+      <div style="min-width:0"><h2>${esc(s.name)}</h2>
+        <div class="meta"><span class="mono">${s.id}</span><span>${esc(s.office)}營業所</span><span>訪員 <b>${esc(s.rep) || '—'}</b></span>${s.biz ? `<span>${esc(s.biz)}${s.chain ? '・' + esc(s.chain) : ''}</span>` : ''}${s.size ? `<span>${f0(s.size)} 坪</span>` : ''}</div>
+        <div class="meta">${esc(s.addr)}</div></div>
+      <div class="card-tags"><button class="golink" data-go="cig" data-id="${s.id}">查看這家全部項目</button><span class="typechip">${esc(s.type)}</span>${s.audit ? `<span class="pill ${s.audit === '合格' ? 'good' : s.audit === '不合格' ? 'bad' : 'mute'}">查核：${s.audit}</span>` : ''}</div>
+    </div>
+    <section class="sec">
+      <h3>本月購貨進度 <span class="pill ${t.cls}">${t.txt}</span></h3>
+      <div class="kv">
+        <div><span>簽約月目標</span><strong>${f0(s.target)}<small>條</small></strong></div>
+        <div><span>本月已購</span><strong>${f1(s.buy)}<small>條</small></strong></div>
+        <div><span>達成率</span><strong style="color:${rateColor(s.rate, paceC.m)}">${pct(s.rate)}</strong></div>
+        <div><span>達 100% 尚差</span><strong>${s.gap100 > 0 ? f1(s.gap100) + '<small>條</small>' : '<span class="t-good">達成</span>'}</strong></div>
+        ${own ? `<div><span>距上限 170% 尚可購</span><strong>${s.gapCap > 0 ? f1(s.gapCap) + '<small>條</small>' : '<span class="t-good">已達上限</span>'}</strong></div>` : ''}
+        <div><span>BW 購貨金額</span><strong>${f1(s.amt)}<small>千元</small></strong></div>
+      </div>
+      ${meter(s.rate, ticks, paceC.m, '時間進度 ' + pct(paceC.m, 0), own ? 1.9 : 1.4, rateColor(s.rate, paceC.m))}
+      ${s.rate < 1 && needPace > 0 ? `<div class="note bad">照時間進度，這家目前應購到 ${f1(s.target * paceC.m)} 條，還差 <b class="num">${f1(needPace)}</b> 條才跟上。</div>` : ''}
+      ${own ? `<div class="note ${s.promoOk ? 'good' : 'warn'}">推廣品本月購貨 <b class="num">${f0(s.promo)}</b> 條，${s.promoOk ? '已達自有店每月 2 條的要求。' : `還差 ${f0(2 - s.promo)} 條才達自有店每月 2 條的要求。`}</div>` : ''}
+    </section>
+    <section class="sec">
+      <h3>陳列獎勵（每月） <span class="num" style="color:var(--ink);font-size:15px">${f0(s.rwG)} 元</span></h3>
+      <div class="kv">
+        <div><span>陳列品項數</span><strong>${f0(s.items)}<small>項</small></strong></div>
+        <div><span>額外獨佔菸格</span><strong>${f0(s.excl)}<small>格</small></strong></div>
+        <div><span>格數合計</span><strong>${f0(s.cells)}<small>格</small></strong></div>
+      </div>
+      <div class="reward">
+        <span>一般陳列</span><span class="num">${f0(s.rwD)} 元</span>
+        <span>獨佔菸格</span><span class="num">${f0(s.rwE)} 元</span>
+        <span>系列陳列（每項 100 元 × ${seriesN}）</span><span class="num">${f0(s.rwF)} 元</span>
+        ${seriesN ? `<span class="sub">${s.series.map(esc).join('、')}</span>` : ''}
+        <span class="tot">合計</span><span class="num tot">${f0(s.rwG)} 元</span>
+      </div>
+    </section>
+    <section class="sec">
+      <h3>季目標（${esc(DC.qCurLabel)} 對比 ${esc(DC.qPrevLabel)}） <span class="pill ${s.qRate >= 1 ? 'good' : qst.cls}">${s.qRate >= 1 ? '已達成' : qst.txt}</span></h3>
+      <div class="kv">
+        <div><span>${esc(DC.qPrevLabel)} 菸品購值</span><strong>${f0(s.qPrev)}<small>元</small></strong></div>
+        <div><span>${esc(DC.qCurLabel)} 至今</span><strong>${f0(s.qCur)}<small>元</small></strong></div>
+        <div><span>季達成率</span><strong style="color:${rateColor(s.qRate, paceC.q)}">${pct(s.qRate)}</strong><em class="hint">季時間進度 ${pct(paceC.q, 0)}</em></div>
+        <div><span>尚差金額</span><strong>${s.qGap > 0 ? f0(s.qGap) + '<small>元</small>' : '<span class="t-good">達成</span>'}</strong></div>
+      </div>
+      <div class="note ${s.qRate >= 1 ? 'good' : ''}">本季購貨 <b class="num">${f0(s.qBuy)}</b> 條${DC.excludeNote ? `（${esc(DC.excludeNote)}）` : ''}。
+        ${s.qRate >= 1 ? `已達季目標，季目標獎勵 <b class="num">${f0(s.qBonus)}</b> 元（每條 5 元）。` : `達成季目標後可領 <b class="num">${f0(s.qBuy * 5)}</b> 元（每條 5 元，季末發放），條數越多獎勵越多。`}</div>
+    </section>
+  </article>`;
+}
+function cigRules() {
+  return `<details class="rules"><summary>計算規則（依菸架進度表公式）</summary><div class="rules-body">
+    <div><h4>月目標達成</h4><ul><li>達成率＝本月購貨數 ÷ 簽約目標量</li><li>自有 S／A 的月購貨上限為目標的 170%</li><li>自有店推廣品每月需購 2 條以上；二位不適用</li><li>時間進度＝截至日 ÷ 當月天數，僅供判斷是否落後</li></ul></div>
+    <div><h4>陳列獎勵</h4><ul><li>合計＝一般陳列＋獨佔菸格＋系列陳列</li><li>系列陳列每符合一項加 100 元：${(DC.seriesLabels || []).map(esc).join('、')}</li></ul></div>
+    <div><h4>季目標</h4><ul><li>季達成率＝今年同季菸品購值 ÷ 去年同季（含稅）</li><li>達 100% 者，季目標獎勵＝本季購貨條數 × 5 元${DC.excludeNote ? `（${esc(DC.excludeNote)}）` : ''}，於 3、6、9、12 月發放</li></ul></div>
+    <div><h4>營業所團隊積分</h4><ul><li>整體達 120% 得 2 分，達 130% 得 3 分</li><li>二位達 120%、自有A 達 135%、自有S 達 135%，各得 2 分；三項皆達標再加 2 分</li></ul></div>
+  </div></details>`;
+}
+
+/* ════════════ 啤酒 ════════════ */
+const CON = BEER_RULES.contracts;
+const CON_KEYS = ['zone', 'end', 's20', 's30', 'small', 'fridge'];
+const CON_SHORT = {zone: '專區', end: '端架', s20: '20箱', s30: '30箱', small: '小型架', fridge: '冰箱'};
+let paceB = {m: null, y: null, label: '—', yLabel: ''};
+function beerPace(d) {
+  const y = (String(d.title).match(/(\d{3})年/) || [])[1], yr = y ? +y + 1911 : new Date().getFullYear();
+  const md = String(d.asOf).match(/(\d{1,2})\/(\d{1,2})/), yd = String(d.yearAsOf || '').match(/(\d{1,2})\/(\d{1,2})/);
+  const out = {m: null, y: null, label: d.asOf || '—', yLabel: d.yearAsOf || ''};
+  if (md) out.m = Math.min(1, +md[2] / new Date(yr, +md[1], 0).getDate());
+  if (yd) { const now = new Date(yr, +yd[1] - 1, +yd[2]), start = new Date(yr, 0, 1), days = (new Date(yr + 1, 0, 1) - start) / 864e5; out.y = Math.min(1, ((now - start) / 864e5 + 1) / days); }
+  return out;
+}
+function bAgg(list) {
+  const a = {n: list.length, total: 0, nonPromo: 0, promo: 0, buyBoxes: 0, dispCans: 0, pushMiss: 0, ytd: 0, base: 0, cons: {}, yearTierHit: 0};
+  CON_KEYS.forEach(k => a.cons[k] = 0);
+  for (const s of list) {
+    const c = s._c;
+    a.total += s.total; a.nonPromo += s.nonPromo; a.promo += s.promo; a.buyBoxes += c.buyBoxes; a.dispCans += c.displayCans;
+    if (c.pushGap > 0) a.pushMiss++;
+    s.contracts.forEach(k => a.cons[k]++);
+    if (s.year) { a.ytd += s.year.ytd; a.base += s.year.base; if (c.year.tier >= 0) a.yearTierHit++; }
+  }
+  a.yRate = a.base ? a.ytd / a.base : 0;
+  return a;
+}
+function bStrip(a) {
+  return `<div class="strip">
+    <div class="stat"><span class="k">簽約店家</span><span class="v">${f0(a.n)}<small>家</small></span><span class="s">冰箱 ${a.cons.fridge}・專區 ${a.cons.zone}・端架 ${a.cons.end}・堆箱 ${a.cons.s20 + a.cons.s30}・小型架 ${a.cons.small}</span></div>
+    <div class="stat"><span class="k">${esc(DB.month)}月總購值</span><span class="v">${wan(a.total)}</span><span class="s">無促銷 ${wan(a.nonPromo)}・促銷 ${wan(a.promo)}</span></div>
+    <div class="stat"><span class="k">催購門檻達成</span><span class="v" style="color:${rateColor(a.n ? (a.n - a.pushMiss) / a.n : 0, paceB.m)}">${f0(a.n - a.pushMiss)}<small>/ ${f0(a.n)} 家</small></span><span class="s">簽一項 3 萬、簽兩項 6 萬・月進度 ${pct(paceB.m, 0)}</span></div>
+    <div class="stat"><span class="k">年度購額達成率</span><span class="v" style="color:${rateColor(a.yRate, paceB.y, 1.05)}">${pct(a.yRate)}</span><span class="s">目標 105%・時間進度 ${pct(paceB.y, 0)}</span></div>
+  </div>`;
+}
+function beerOffice() {
+  const all = bAgg(DB.stores);
+  const row = (label, a, attr = '') => `<tr ${attr}>
+      <td class="l"><span class="oname">${esc(label)}</span></td><td class="num">${f0(a.n)}</td>
+      ${CON_KEYS.map(k => `<td class="num ${a.cons[k] ? '' : 'hint'}">${a.cons[k] || '—'}</td>`).join('')}
+      <td class="sep num">${wan(a.total)}</td><td class="num">${wan(a.nonPromo)}</td><td class="num">${f0(a.buyBoxes)}</td><td class="num">${boxTxt(a.dispCans)}</td>
+      <td class="sep num ${a.pushMiss ? 't-bad' : 't-good'}">${a.pushMiss || '0'}</td><td>${barCell(a.n ? (a.n - a.pushMiss) / a.n : 0, paceB.m, 1)}</td>
+      <td class="sep num">${wan(a.ytd)}</td><td class="num">${wan(a.base)}</td><td>${barCell(a.yRate, paceB.y, 1.15, 1.05)}</td>
+      <td class="num">${a.ytd - a.base * 1.05 >= 0 ? '<span class="t-good">達成</span>' : wan(a.base * 1.05 - a.ytd)}</td>
+      <td class="num">${f0(a.yearTierHit)}</td></tr>`;
+  const rows = DB.offices.map(o => row(o, bAgg(DB.stores.filter(s => s.office === o)), `data-office="${esc(o)}" tabindex="0"`)).join('');
+  return `${bStrip(all)}${tabsHtml(VB)}
+    <div class="hint">點任一營業所，直接看該所的店家明細。本月 ${esc(DB.asOf)} 購貨、年度截至 ${esc(DB.yearAsOf)}。年度達成率顏色以 105% 為達標線，並對照時間進度。</div>
+    <div class="tablebox"><table class="wide">
+      <thead>
+        <tr><th class="l" rowspan="2">營業所</th><th rowspan="2">簽約家數</th><th class="grp" colspan="6">簽約項目（家）</th>
+          <th class="grp" colspan="4">${esc(DB.month)} 月購貨</th><th class="grp" colspan="2">催購門檻（3萬／6萬）</th><th class="grp" colspan="5">年度達成（${esc(DB.yearLabels.cur)} 對比 ${esc(DB.yearLabels.prev)}）</th></tr>
+        <tr>${CON_KEYS.map(k => `<th>${CON_SHORT[k]}</th>`).join('')}
+          <th class="sep">總購值</th><th>無促銷</th><th>購貨獎勵(箱)</th><th>陳列獎勵</th>
+          <th class="sep">未達家數</th><th class="l">達成比例</th>
+          <th class="sep">${esc(DB.yearLabels.cur)} 購額</th><th>${esc(DB.yearLabels.prev)} 基準</th><th class="l">處達成率</th><th>達 105% 尚差</th><th>已達獎勵家數</th></tr>
+      </thead>
+      <tbody>${rows}</tbody>
+      <tfoot>${row('合計', all).replace('<tr >', '<tr>')}</tfoot>
+    </table></div>${beerRules()}`;
+}
+const BFLAGS = [['push', '未達催購門檻'], ['buy0', '本月購貨獎勵 0 箱'], ['disp', '陳列獎勵未拿滿'], ['yearBehind', '年度落後時間進度'], ['yearNo', '年度未達 105%'], ['two', '簽兩項']];
+function beerFiltered() {
+  const v = VB, q = v.q.trim().toLowerCase();
+  let list = DB.stores.filter(s => (!v.office || s.office === v.office) && (!v.grades.size || v.grades.has(s.year?.grade)) &&
+    (!v.cons.size || s.contracts.some(k => v.cons.has(k))) && (!q || s.name.toLowerCase().includes(q) || s.id.includes(q)));
+  const f = v.flag;
+  if (f === 'push') list = list.filter(s => s._c.pushGap > 0);
+  if (f === 'buy0') list = list.filter(s => s._c.buyBoxes === 0);
+  if (f === 'disp') list = list.filter(s => s._c.got.length < s.contracts.length);
+  if (f === 'yearBehind') list = list.filter(s => s._c.year && s._c.year.rate < (paceB.y ?? 1) * 1.05);
+  if (f === 'yearNo') list = list.filter(s => s._c.year && s._c.year.tier < 0);
+  if (f === 'two') list = list.filter(s => s.contracts.length >= 2);
+  const yr = s => s._c.year ? s._c.year.rate : 0;
+  const by = {year: (a, b) => yr(a) - yr(b), yearDesc: (a, b) => yr(b) - yr(a), total: (a, b) => a.total - b.total, push: (a, b) => b._c.pushGap - a._c.pushGap};
+  return list.sort(by[v.sort] || by.year);
+}
+function beerStore() {
+  const v = VB, list = beerFiltered();
+  if (!v.sel || !list.some(s => s.id === v.sel)) v.sel = list[0]?.id || null;
+  const a = bAgg(list);
+  return `${bStrip(bAgg(DB.stores.filter(s => !v.office || s.office === v.office)))}${tabsHtml(v)}
+    <div class="filters">
+      <div class="field"><label for="fOffice">營業所</label><select id="fOffice"><option value="">全部營業所</option>${DB.offices.map(o => `<option ${o === v.office ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>
+      <div class="field"><label for="fQ">搜尋</label><input type="search" id="fQ" placeholder="店名、BW代號" value="${esc(v.q)}"></div>
+      <div class="field"><span class="fl">簽約項目（可複選）</span><div class="chips">${CON_KEYS.map(k => chip('data-con', k, CON_SHORT[k], v.cons.has(k))).join('')}</div></div>
+      <div class="field"><span class="fl">客戶分級</span><div class="chips">${['A', 'B', 'C'].map(g => chip('data-grade', g, '五大' + g + '級', v.grades.has(g))).join('')}</div></div>
+      <div class="field"><span class="fl">只看需要追的店</span><div class="chips">${BFLAGS.map(([k, l]) => chip('data-flag', k, l, v.flag === k)).join('')}</div></div>
+    </div>
+    <div class="split">
+      <div class="list">
+        <div class="listhead"><span><b style="color:var(--ink)">${f0(list.length)}</b> 家・本月 ${wan(a.total)}・年度 ${pct(a.yRate)}</span>
+          <select id="fSort" aria-label="排序"><option value="year">年度達成率低→高</option><option value="yearDesc">年度達成率高→低</option><option value="push">催購差額多→少</option><option value="total">本月總購值低→高</option></select></div>
+        <div class="rows">${list.length ? list.map(beerRow).join('') : '<div class="empty">沒有符合條件的店家，試著放寬篩選。</div>'}</div>
+      </div>
+      <div id="card">${beerCard(DB.stores.find(s => s.id === v.sel))}</div>
+    </div>${beerRules()}`;
+}
+function beerBind() {
+  const v = VB;
+  if (!$('#fOffice')) return;
+  $('#fSort').value = v.sort;
+  $('#fOffice').onchange = e => { v.office = e.target.value; v.sel = null; render(); };
+  $('#fSort').onchange = e => { v.sort = e.target.value; render(); };
+  bindSearch(v);
+  $$('[data-con]').forEach(b => b.onclick = () => { const k = b.dataset.con; v.cons.has(k) ? v.cons.delete(k) : v.cons.add(k); v.sel = null; render(); });
+  $$('[data-grade]').forEach(b => b.onclick = () => { const k = b.dataset.grade; v.grades.has(k) ? v.grades.delete(k) : v.grades.add(k); v.sel = null; render(); });
+  $$('[data-flag]').forEach(b => b.onclick = () => { v.flag = v.flag === b.dataset.flag ? '' : b.dataset.flag; v.sel = null; render(); });
+  bindList(beerCard, DB.stores);
+}
+function beerRow(s) {
+  const y = s._c.year, t = y ? status(y.rate, paceB.y, 1.05) : {cls: 'mute'};
+  return `<button class="row" data-id="${s.id}" aria-current="${s.id === VB.sel}">
+    <span class="n">${esc(s.name)}</span>
+    <span class="r"><span class="pill ${t.cls}">${y ? pct(y.rate, 0) : '—'}</span><span class="num">本月 ${wan(s.total)}</span></span>
+    <span class="m"><span class="mono">${s.id}</span>・${y?.grade ? y.grade + '級' : '未分級'}・${s.contracts.map(k => CON_SHORT[k]).join('＋')}</span></button>`;
+}
+function beerCard(s) {
+  if (!s) return `<div class="card"><div class="empty">從左邊清單選一家店，就會在這裡看到它本月可領的購貨獎勵、陳列獎勵，以及年度達成獎勵的預估。</div></div>`;
+  const c = s._c, y = c.year, note = s.rawName !== s.name ? s.rawName.slice(s.name.length).replace(/^[（(]|[)）]$/g, '') : '';
+  const pushRate = c.pushTarget ? s.total / c.pushTarget : 0, pt = status(pushRate, paceB.m);
+  const yoy = s.lastYear ? s.total / s.lastYear - 1 : null;
+  const totalCans = c.buyBoxes * 24 + c.displayCans;
+  let yearHtml = '<div class="note">這家店不在「客戶年度達成」名單中，無法試算年度獎勵。</div>';
+  if (y) {
+    const proj = paceB.y ? y.rate / paceB.y : null;
+    let pTier = -1; BEER_RULES.yearTiers.forEach((t, i) => { if (proj != null && proj >= t) pTier = i; });
+    const ys = status(y.rate, paceB.y, 1.05);
+    yearHtml = `
+      <div class="kv">
+        <div><span>${esc(DB.yearLabels.prev)} 年購額</span><strong>${wan(y.prevYear)}</strong>${y.base !== y.prevYear ? `<em class="hint">C 級未達 36 萬，以 36 萬計</em>` : ''}</div>
+        <div><span>${esc(DB.yearLabels.cur)} 年至今</span><strong>${wan(y.ytd)}</strong><em class="hint">截至 ${esc(DB.yearAsOf)}</em></div>
+        <div><span>達成率</span><strong style="color:${rateColor(y.rate, paceB.y, 1.05)}">${pct(y.rate)}</strong><em class="hint">年度時間進度 ${pct(paceB.y, 0)}</em></div>
+        <div><span>目前可領</span><strong>${y.boxes}<small>箱</small></strong></div>
+      </div>
+      ${meter(y.rate, [[1.05, '105%'], [1.10, '110%'], [1.15, '115%']], paceB.y != null ? paceB.y * 1.05 : null, '應有進度 ' + pct((paceB.y ?? 0) * 1.05, 0), 1.3, rateColor(y.rate, paceB.y, 1.05))}
+      <div class="tiers">${BEER_RULES.yearTiers.map((t, i) => `<div class="tier ${y.tier >= i ? 'on' : ''}"><span>達 ${Math.round(t * 100)}%</span><strong>${y.table[i]} 箱</strong><em>${y.gaps[i] > 0 ? '尚差 ' + wan(y.gaps[i]) : '已達成'}</em></div>`).join('')}</div>
+      ${proj != null ? `<div class="note ${pTier >= 0 ? 'good' : ys.cls}">照目前速度推估，年底達成率約 <b class="num">${pct(proj, 0)}</b>，${pTier >= 0 ? `可領 <b class="num">${y.table[pTier]}</b> 箱。` : `還不到 105%；要拿到 ${y.table[0]} 箱，剩下的日子平均每月需購 <b class="num">${wan(y.gaps[0] / Math.max(0.5, (1 - paceB.y) * 12))}</b>。`}</div>` : ''}`;
+  }
+  return `<article class="card">
+    <div class="card-h">
+      <div style="min-width:0"><h2>${esc(s.name)}</h2>
+        <div class="meta"><span class="mono">${s.id}</span><span>${esc(s.office)}營業所</span>${note ? `<span>${esc(note)}</span>` : ''}</div>
+        <div class="contracts">${s.contracts.map(k => `<span class="con">${CON[k].label}</span>`).join('')}</div></div>
+      <div class="card-tags"><button class="golink" data-go="beer" data-id="${s.id}">查看這家全部項目</button><span class="typechip">${y?.grade ? '五大' + y.grade + '級' : '未分級'}</span><span class="pill ${pt.cls}">${c.pushGap > 0 ? '未達催購門檻' : '已達催購門檻'}</span></div>
+    </div>
+    <section class="sec">
+      <h3>${esc(DB.month)} 月購貨（截至 ${esc(DB.asOf)}） <span class="num" style="color:var(--ink);font-size:15px">本月可領約 ${boxTxt(totalCans)}</span></h3>
+      <div class="kv">
+        <div><span>當月總購值</span><strong>${f0(s.total)}<small>元</small></strong></div>
+        <div><span>無促銷購貨（B）</span><strong>${f0(s.nonPromo)}<small>元</small></strong><em class="hint">瓶 ${f0(s.nonPromoBottle)}・罐 ${f0(s.nonPromoCan)}</em></div>
+        <div><span>促銷購貨（A）</span><strong>${f0(s.promo)}<small>元</small></strong><em class="hint">瓶 ${f0(s.promoBottle)}・罐 ${f0(s.promoCan)}</em></div>
+        <div><span>去年同月</span><strong>${s.lastYear ? f0(s.lastYear) + '<small>元</small>' : '—'}</strong>${yoy != null ? `<em class="${yoy >= 0 ? 't-good' : 't-bad'}">${yoy >= 0 ? '+' : ''}${pct(yoy)}</em>` : ''}</div>
+      </div>
+      ${meter(pushRate, [[1, (c.pushTarget / 10000) + ' 萬催購門檻']], paceB.m, '月進度 ' + pct(paceB.m, 0), 2, rateColor(pushRate, paceB.m))}
+      ${c.pushGap > 0 ? `<div class="note bad">距 ${c.pushTarget / 10000} 萬催購門檻還差 <b class="num">${f0(c.pushGap)}</b> 元（總購值，含促銷）。</div>` : ''}
+    </section>
+    <section class="sec">
+      <h3>本月獎勵試算</h3>
+      <div class="reward">
+        <span>購貨獎勵：無促銷購貨每滿 3 萬 1 箱${c.capped ? '（只簽冰箱，上限 2 箱）' : ''}</span><span class="num">${c.buyBoxes} 箱</span>
+        <span class="sub">${c.buyNext == null ? '已達冰箱購貨獎勵上限。' : `再購 ${f0(c.buyNext)} 元無促銷貨品，可多拿 1 箱。`}</span>
+        ${c.items.map(x => { const got = c.got.includes(x.key); return `<span>陳列獎勵・${x.label}（總購值達 ${x.th / 10000} 萬）</span><span class="num ${got ? 't-good' : 'hint'}">${got ? x.rewardTxt : '未達'}</span>`; }).join('')}
+        ${c.items.length >= 2 ? `<span class="sub">簽兩項不重複計算購值：兩項都要拿，總購值需達 ${c.sumTh / 10000} 萬${c.displayGap > 0 ? `，還差 ${f0(c.displayGap)} 元` : '，已達成'}。</span>` : ''}
+        <span class="tot">合計（0.33L 罐裝金牌）</span><span class="num tot">${boxTxt(totalCans)}</span>
+      </div>
+      ${s.contracts.includes('fridge') ? '<div class="hint">冰箱如另陳列 18 天生啤酒 1 排面，每月再加 4 罐（表中無此資料，未列入合計）。</div>' : ''}
+    </section>
+    <section class="sec">
+      <h3>年度達成獎勵 ${y ? `<span class="pill ${y.tier >= 0 ? 'good' : status(y.rate, paceB.y, 1.05).cls}">${y.tier >= 0 ? '已達 ' + Math.round(BEER_RULES.yearTiers[y.tier] * 100) + '%' : status(y.rate, paceB.y, 1.05).txt}</span>` : ''}</h3>
+      ${yearHtml}
+    </section>
+  </article>`;
+}
+function beerRules() {
+  const R = BEER_RULES.yearReward;
+  return `<details class="rules"><summary>計算規則（依 115 年啤酒效益店家商化管理規定）</summary><div class="rules-body">
+    <div><h4>購貨獎勵</h4><ul><li>只認列無開折扣（無促銷）的購貨</li><li>每購銷滿 3 萬元給 1 箱 0.33L 罐裝金牌，無上限</li><li>只簽冰箱者上限 2 箱；簽兩項者購值不重複計算</li></ul></div>
+    <div><h4>陳列獎勵（以當月總購值判斷）</h4><ul><li>專區：達 3 萬給 2 箱；端架：達 3 萬給 1 箱</li><li>20 箱落地：達 2 萬給 2 手；30 箱落地：達 3 萬給 1 箱</li><li>小型陳列架：達 2 萬給 2 手；冰箱：達 3 萬給 1 箱</li><li>簽兩項者門檻相加，例如 30 箱＋冰箱需 6 萬才兩項都拿</li></ul></div>
+    <div><h4>催購門檻</h4><ul><li>簽兩項以 6 萬、其餘以 3 萬催購（處內追蹤用，以總購值計）</li><li>月進度＝截至日 ÷ 當月天數</li></ul></div>
+    <div><h4>年度達成獎勵</h4><ul><li>分級依前一年購值：C 級 72 萬以下、B 級 72～120 萬、A 級 120 萬以上</li><li>C 級前一年未達 36 萬者以 36 萬為基準</li><li>達 105%／110%／115%：C 級 ${R.C.join('／')} 箱、B 級 ${R.B.join('／')} 箱、A 級 ${R.A.join('／')} 箱</li><li>年底推估＝目前達成率 ÷ 年度時間進度</li></ul></div>
+  </div></details>`;
+}
+
+/* ════════════ 全品項業績（BW 明細：客戶 × 部門 × 月） ════════════ */
+const DEPT_COLORS = {'菸類': 'var(--c1)', '酒類': 'var(--c2)', '啤酒': 'var(--c3)', '食品及綜合': 'var(--c4)', '生技': 'var(--c5)'};
+let pacePf = {m: null, label: '—'};
+function perfPace(d) {
+  const m = String(d.refreshed || '').match(/(\d{4})\/(\d{1,2})\/(\d{1,2})(?:\s+(\d{1,2}):(\d{2}))?/);
+  if (!m) return {m: null, label: `${d.year - 1911}年${d.month}月`};
+  const y = +m[1], mo = +m[2], day = +m[3], hr = m[4] ? +m[4] + (+m[5]) / 60 : 24;
+  const dim = new Date(d.year, d.month, 0).getDate();
+  const p = (y > d.year || (y === d.year && mo > d.month)) ? 1 : Math.min(1, Math.max(0, (day - 1 + hr / 24) / dim));
+  return {m: p, label: `${mo}/${day}${m[4] ? ' ' + m[4].padStart(2, '0') + ':' + m[5] : ''}`};
+}
+/* 每位客戶先算好：今年／去年逐月合計、完整月累計、本月至今、部門累計 */
+function perfPrep(d) {
+  const M = d.month, F = M - 1;
+  const sumTo = (a, n) => a.slice(0, n).reduce((x, v) => x + v, 0);
+  for (const c of d.customers) {
+    const t26 = Array(12).fill(0), t25 = Array(12).fill(0), dep = {};
+    for (const [k, a] of Object.entries(c.y)) { a.forEach((v, i) => t26[i] += v); (dep[k] ??= {y: 0, p: 0, cur: 0, py: 0}).y = sumTo(a, F); dep[k].cur = a[M - 1]; }
+    for (const [k, a] of Object.entries(c.p)) { a.forEach((v, i) => t25[i] += v); (dep[k] ??= {y: 0, p: 0, cur: 0, py: 0}).p = sumTo(a, F); dep[k].pm = a[M - 1]; dep[k].py = sumTo(a, 12); }
+    c._ = {t26, t25, ytd: sumTo(t26, F), ytdP: sumTo(t25, F), cur: t26[M - 1], curP: t25[M - 1], yearP: sumTo(t25, 12), dep};
+    c._.growth = c._.ytdP ? c._.ytd / c._.ytdP - 1 : null;
+    c._.drop = Math.max(0, c._.ytdP - c._.ytd);
+  }
+}
+const VP = {tab: 'office', office: '', depts: new Set(), flag: '', q: '', sort: 'drop', sel: null};
+const perfActive = c => c._ && (c._.ytd || c._.ytdP || c._.cur || c._.curP);
+function pAgg(list) {
+  const a = {n: 0, nP: 0, lost: 0, fresh: 0, ytd: 0, ytdP: 0, cur: 0, curP: 0, yearP: 0, t26: Array(12).fill(0), t25: Array(12).fill(0), dep: {}};
+  for (const c of list) {
+    const x = c._; if (!x) continue;
+    a.ytd += x.ytd; a.ytdP += x.ytdP; a.cur += x.cur; a.curP += x.curP; a.yearP += x.yearP;
+    x.t26.forEach((v, i) => a.t26[i] += v); x.t25.forEach((v, i) => a.t25[i] += v);
+    if (x.ytd + x.cur > 0) a.n++; if (x.ytdP + x.curP > 0) a.nP++;
+    if (x.ytdP > 0 && x.ytd + x.cur <= 0) a.lost++;
+    if (x.ytdP <= 0 && x.ytd + x.cur > 0) a.fresh++;
+    for (const [k, v] of Object.entries(x.dep)) { const o = a.dep[k] ??= {y: 0, p: 0, cur: 0, pm: 0}; o.y += v.y; o.p += v.p; o.cur += v.cur || 0; o.pm += v.pm || 0; }
+  }
+  a.growth = a.ytdP ? a.ytd / a.ytdP - 1 : null;
+  a.curRate = a.curP ? a.cur / a.curP : null;
+  return a;
+}
+const F_ = () => DP.month - 1;
+const span = () => F_() > 1 ? `1–${F_()} 月` : `${F_()} 月`;
+const gTxt = g => g == null ? '—' : (g >= 0 ? '+' : '') + pct(g);
+const gCls = g => g == null ? 'hint' : g >= 0 ? 't-good' : 't-bad';
+function pStrip(a) {
+  return `<div class="strip">
+    <div class="stat"><span class="k">${span()}累計業績</span><span class="v">${wan(a.ytd)}</span><span class="s">去年同期 ${wan(a.ytdP)}</span></div>
+    <div class="stat"><span class="k">累計成長率</span><span class="v ${gCls(a.growth)}">${gTxt(a.growth)}</span><span class="s">差額 ${a.ytd - a.ytdP >= 0 ? '+' : '−'}${wan(Math.abs(a.ytd - a.ytdP))}</span></div>
+    <div class="stat"><span class="k">${DP.month} 月至今</span><span class="v" style="color:${a.curRate == null ? 'var(--muted)' : rateColor(a.curRate, pacePf.m)}">${wan(a.cur)}</span><span class="s">去年 ${DP.month} 月 ${wan(a.curP)}・達 ${pct(a.curRate, 0)}・時間進度 ${pct(pacePf.m, 0)}</span></div>
+    <div class="stat"><span class="k">進貨客戶</span><span class="v">${f0(a.n)}<small>/ 去年 ${f0(a.nP)} 家</small></span><span class="s">去年有、今年沒進 <b class="t-bad">${f0(a.lost)}</b>・新客戶 ${f0(a.fresh)}</span></div>
+  </div>`;
+}
+function deptBar(dep, key) {
+  const parts = DP.depts.filter(k => (dep[k]?.[key] || 0) > 0), total = parts.reduce((s, k) => s + dep[k][key], 0);
+  if (!total) return '<div class="hint">沒有進貨。</div>';
+  return `<div class="catbar" role="img" aria-label="部門占比">${parts.map(k => `<i style="width:${dep[k][key] / total * 100}%;background:${DEPT_COLORS[k] || 'var(--c5)'}"></i>`).join('')}</div>
+    <div class="catlegend">${parts.map(k => `<span><b style="background:${DEPT_COLORS[k] || 'var(--c5)'}"></b>${k} <span class="num">${wan(dep[k][key])}</span><span class="hint">${pct(dep[k][key] / total, 0)}</span></span>`).join('')}</div>`;
+}
+/* 去年 vs 今年逐月並排長條；本月今年為「至今」，以斜線表示 */
+function monthChart2(t25, t26, month, h = 170) {
+  const W = 640, H = h, padL = 48, padB = 22, padT = 14, n = 12;
+  const max = Math.max(...t25, ...t26, 1) * 1.08;
+  const bw = (W - padL - 6) / n, y = v => padT + (H - padT - padB) * (1 - Math.max(0, v) / max);
+  const step = (() => { const raw = max / 4, p = 10 ** Math.floor(Math.log10(raw)); return [1, 2, 2.5, 5, 10].map(x => x * p).find(x => x >= raw); })();
+  const ticks = []; for (let t = 0; t <= max; t += step) ticks.push(t);
+  const bars = [...Array(n)].map((_, i) => {
+    const x0 = padL + i * bw, w = bw * 0.36, isM = i === month - 1, fut = i >= month;
+    return `<rect x="${x0 + bw * 0.12}" y="${y(t25[i])}" width="${w}" height="${y(0) - y(t25[i])}" rx="2" fill="var(--line)"><title>去年 ${i + 1} 月：${wan(t25[i])}</title></rect>
+      ${fut ? '' : `<rect x="${x0 + bw * 0.5}" y="${y(t26[i])}" width="${w}" height="${y(0) - y(t26[i])}" rx="2" fill="${isM ? 'url(#hatch)' : 'var(--accent)'}" ${isM ? 'stroke="var(--accent)"' : ''}><title>今年 ${i + 1} 月${isM ? '至今' : ''}：${wan(t26[i])}</title></rect>`}
+      <text x="${x0 + bw / 2}" y="${H - 6}" text-anchor="middle" class="ax ${isM ? 'axm' : ''}">${i + 1}月</text>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" class="mchart" role="img" aria-label="去年與今年逐月業績">
+    <defs><pattern id="hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="var(--accent-soft)"/><line x1="0" y1="0" x2="0" y2="5" stroke="var(--accent)" stroke-width="2"/></pattern></defs>
+    ${ticks.map(t => `<line x1="${padL}" x2="${W - 4}" y1="${y(t)}" y2="${y(t)}" class="grid"/><text x="${padL - 6}" y="${y(t) + 4}" text-anchor="end" class="ax">${(t / 1e4).toLocaleString('zh-TW', {maximumFractionDigits: 0})}</text>`).join('')}
+    <text x="${padL - 6}" y="10" text-anchor="end" class="ax">萬</text>
+    ${bars}
+  </svg>
+  <div class="chartkey"><span><b class="k1"></b>${DP.prevYear - 1911} 年</span><span><b class="k3"></b>${DP.year - 1911} 年</span><span><b class="k4"></b>${DP.month} 月至今</span></div>`;
+}
+function perfOffice() {
+  const all = pAgg(DP.customers), D = DP.depts;
+  const row = (label, a, attr = '') => `<tr ${attr}>
+    <td class="l"><span class="oname">${esc(label)}</span></td>
+    <td class="num">${f0(a.n)}<span class="hint"> / ${f0(a.nP)}</span></td>
+    <td class="sep num">${wan(a.ytd)}</td><td class="num">${wan(a.ytdP)}</td><td class="num ${gCls(a.growth)}">${gTxt(a.growth)}</td>
+    ${D.map((k, i) => { const o = a.dep[k] || {y: 0, p: 0}; const g = o.p ? o.y / o.p - 1 : null; return `<td class="${i ? '' : 'sep '}num">${o.y ? wan(o.y) : '<span class="hint">—</span>'}<div class="sub ${gCls(g)}">${gTxt(g)}</div></td>`; }).join('')}
+    <td class="sep num">${wan(a.cur)}</td><td>${a.curRate == null ? '—' : barCell(a.curRate, pacePf.m, 1.2)}</td>
+    <td class="sep num ${a.lost ? 't-bad' : ''}">${f0(a.lost)}</td></tr>`;
+  const rows = DP.offices.map(o => row(o, pAgg(DP.customers.filter(c => c.office === o)), `data-office="${esc(o)}" tabindex="0"`)).join('');
+  return `${pStrip(all)}${tabsHtml(VP)}
+    <div class="card"><div class="sec">
+      <h3>全處逐月業績（BW 未稅開單金額）</h3>
+      ${monthChart2(all.t25, all.t26, DP.month)}
+    </div></div>
+    <div class="hint">累計只算完整月份（${span()}），${DP.month} 月還在進行中另外列。點任一營業所看該所客戶。</div>
+    <div class="tablebox"><table class="wide">
+      <thead>
+        <tr><th class="l" rowspan="2">營業所</th><th rowspan="2">進貨客戶<br><span class="hint">今年 / 去年</span></th><th class="grp" colspan="3">${span()}累計</th><th class="grp" colspan="${D.length}">各部門累計（下方為成長率）</th><th class="grp" colspan="2">${DP.month} 月至今</th><th rowspan="2" class="sep">去年有<br>今年沒進</th></tr>
+        <tr><th class="sep">今年</th><th>去年同期</th><th>成長率</th>${D.map((k, i) => `<th class="${i ? '' : 'sep'}">${k}</th>`).join('')}<th class="sep">金額</th><th class="l">對去年同月</th></tr>
+      </thead>
+      <tbody>${rows}</tbody>
+      <tfoot>${row('合計', all).replace('<tr >', '<tr>')}</tfoot>
+    </table></div>${perfRules()}`;
+}
+const PFLAGS = [['drop', '累計衰退'], ['lag', '本月落後時間進度'], ['lost', '去年有、今年沒進'], ['fresh', '新客戶'], ['cig', '菸架簽約店'], ['beer', '啤酒五大店'], ['liq', '酒特陳架店']];
+function perfFiltered() {
+  const v = VP, q = v.q.trim().toLowerCase();
+  const sets = {cig: new Set((DC?.stores || []).map(s => s.id)), beer: new Set((DB?.stores || []).map(s => s.id)), liq: new Set((DL?.stores || []).map(s => s.id))};
+  let list = DP.customers.filter(c => perfActive(c) && (!v.office || c.office === v.office) &&
+    (!v.depts.size || [...v.depts].some(k => (c._.dep[k]?.y || 0) + (c._.dep[k]?.cur || 0) > 0)) && (!q || c.name.toLowerCase().includes(q) || c.id.includes(q)));
+  const f = v.flag;
+  if (f === 'drop') list = list.filter(c => c._.ytdP > 0 && c._.ytd < c._.ytdP);
+  if (f === 'lag') list = list.filter(c => c._.curP > 0 && c._.cur < c._.curP * (pacePf.m ?? 1));
+  if (f === 'lost') list = list.filter(c => c._.ytdP > 0 && c._.ytd + c._.cur <= 0);
+  if (f === 'fresh') list = list.filter(c => c._.ytdP <= 0 && c._.ytd + c._.cur > 0);
+  if (sets[f]) list = list.filter(c => sets[f].has(c.id));
+  const by = {drop: (a, b) => b._.drop - a._.drop, growth: (a, b) => (a._.growth ?? 9) - (b._.growth ?? 9), ytd: (a, b) => b._.ytd - a._.ytd, cur: (a, b) => b._.cur - a._.cur};
+  return list.sort(by[v.sort] || by.drop);
+}
+function perfStore() {
+  const v = VP, list = perfFiltered();
+  if (!v.sel || !list.some(c => c.id === v.sel)) v.sel = list[0]?.id || null;
+  const a = pAgg(list), shown = list.slice(0, 400);
+  return `${pStrip(pAgg(DP.customers.filter(c => !v.office || c.office === v.office)))}${tabsHtml(v)}
+    <div class="filters">
+      <div class="field"><label for="fOffice">營業所</label><select id="fOffice"><option value="">全部營業所</option>${DP.offices.map(o => `<option ${o === v.office ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>
+      <div class="field"><label for="fQ">搜尋</label><input type="search" id="fQ" placeholder="客戶名稱、客戶代號" value="${esc(v.q)}"></div>
+      <div class="field"><span class="fl">今年有進的部門（可複選）</span><div class="chips">${DP.depts.map(k => chip('data-dept', k, k, v.depts.has(k))).join('')}</div></div>
+      <div class="field"><span class="fl">只看需要追的客戶</span><div class="chips">${PFLAGS.filter(([k]) => (k !== 'cig' || DC) && (k !== 'beer' || DB) && (k !== 'liq' || DL)).map(([k, l]) => chip('data-flag', k, l, v.flag === k)).join('')}</div></div>
+    </div>
+    <div class="split">
+      <div class="list">
+        <div class="listhead"><span><b style="color:var(--ink)">${f0(list.length)}</b> 家・累計 ${wan(a.ytd)}（${gTxt(a.growth)}）</span>
+          <select id="fSort" aria-label="排序"><option value="drop">衰退金額多→少</option><option value="growth">成長率低→高</option><option value="ytd">今年累計高→低</option><option value="cur">本月至今高→低</option></select></div>
+        <div class="rows">${shown.length ? shown.map(perfRow).join('') + (list.length > shown.length ? `<div class="empty">只列前 ${shown.length} 家，請用營業所或搜尋縮小範圍。</div>` : '') : '<div class="empty">沒有符合條件的客戶，試著放寬篩選。</div>'}</div>
+      </div>
+      <div id="card">${perfCard(DP.customers.find(c => c.id === v.sel))}</div>
+    </div>${perfRules()}`;
+}
+function perfBind() {
+  const v = VP;
+  if (!$('#fOffice')) return;
+  $('#fSort').value = v.sort;
+  $('#fOffice').onchange = e => { v.office = e.target.value; v.sel = null; render(); };
+  $('#fSort').onchange = e => { v.sort = e.target.value; render(); };
+  bindSearch(v);
+  $$('[data-dept]').forEach(b => b.onclick = () => { const k = b.dataset.dept; v.depts.has(k) ? v.depts.delete(k) : v.depts.add(k); v.sel = null; render(); });
+  $$('[data-flag]').forEach(b => b.onclick = () => { v.flag = v.flag === b.dataset.flag ? '' : b.dataset.flag; v.sel = null; render(); });
+  bindList(perfCard, DP.customers);
+}
+function perfRow(c) {
+  const g = c._.growth, cls = g == null ? 'mute' : g >= 0 ? 'good' : g > -0.1 ? 'warn' : 'bad';
+  return `<button class="row" data-id="${c.id}" aria-current="${c.id === VP.sel}">
+    <span class="n">${esc(c.name)}</span>
+    <span class="r"><span class="pill ${cls}">${g == null ? '新' : gTxt(g).replace('.0%', '%')}</span><span class="num">${wan(c._.ytd)}</span></span>
+    <span class="m"><span class="mono">${c.id}</span>・${esc(c.office)}・去年同期 ${wan(c._.ytdP)}</span></button>`;
+}
+function perfCard(c) {
+  if (!c) return `<div class="card"><div class="empty">從清單選一位客戶，就會看到今年累計、各部門和逐月業績。</div></div>`;
+  const x = c._, r = x.curP ? x.cur / x.curP : null;
+  const cs = DC?.stores.find(s => s.id === c.id), bs = DB?.stores.find(s => s.id === c.id), ls = DL?.stores.find(s => s.id === c.id);
+  const deps = DP.depts.filter(k => x.dep[k] && (x.dep[k].y || x.dep[k].p || x.dep[k].cur));
+  return `<article class="card">
+    <div class="card-h">
+      <div style="min-width:0"><h2>${esc(c.name)}</h2>
+        <div class="meta"><span class="mono">${c.id}</span><span>${esc(c.office)}營業所</span><span>去年全年 <b>${wan(x.yearP)}</b></span></div>
+        ${cs || bs || ls ? `<div class="contracts">${cs ? `<span class="con">菸架 ${esc(cs.type)}</span>` : ''}${bs ? `<span class="con">啤酒五大 ${bs.contracts.map(k => CON_SHORT[k]).join('＋')}</span>` : ''}${ls ? '<span class="con">酒特陳架</span>' : ''}</div>` : ''}</div>
+      <div class="card-tags"><button class="golink" data-go="perf" data-id="${c.id}">查看這家全部項目</button><span class="pill ${x.growth == null ? 'mute' : x.growth >= 0 ? 'good' : 'bad'}">${x.growth == null ? '去年同期無進貨' : '累計 ' + gTxt(x.growth)}</span></div>
+    </div>
+    <section class="sec">
+      <h3>業績（BW 未稅，更新至 ${esc(pacePf.label)}）</h3>
+      <div class="kv">
+        <div><span>${span()}累計</span><strong>${f0(x.ytd)}<small>元</small></strong><em class="${gCls(x.growth)}">${gTxt(x.growth)}</em></div>
+        <div><span>去年同期</span><strong>${f0(x.ytdP)}<small>元</small></strong><em class="hint">${x.ytd >= x.ytdP ? '多' : '少'} ${f0(Math.abs(x.ytd - x.ytdP))} 元</em></div>
+        <div><span>${DP.month} 月至今</span><strong style="color:${r == null ? 'var(--muted)' : rateColor(r, pacePf.m)}">${f0(x.cur)}<small>元</small></strong><em class="hint">去年 ${DP.month} 月 ${f0(x.curP)}・時間進度 ${pct(pacePf.m, 0)}</em></div>
+      </div>
+      ${monthChart2(x.t25, x.t26, DP.month, 150)}
+    </section>
+    <section class="sec">
+      <h3>各部門（${span()}累計對去年同期）</h3>
+      ${deptBar(x.dep, 'y')}
+      <div class="tablebox flat"><table class="qtable"><thead><tr><th class="l">部門</th><th>今年累計</th><th>去年同期</th><th>成長率</th><th>${DP.month} 月至今</th></tr></thead>
+        <tbody>${deps.map(k => { const o = x.dep[k], g = o.p ? o.y / o.p - 1 : null; return `<tr><td class="l">${k}</td><td class="num">${f0(o.y)}</td><td class="num">${f0(o.p)}</td><td class="num ${gCls(g)}">${gTxt(g)}</td><td class="num">${f0(o.cur || 0)}</td></tr>`; }).join('')}</tbody></table></div>
+    </section>
+    ${c.top.length ? `<section class="sec">
+      <h3>今年進貨金額前 ${c.top.length} 名產品</h3>
+      <div class="tablebox flat"><table class="qtable"><thead><tr><th class="l">產品</th><th class="l">部門</th><th>今年累計</th><th>${DP.month} 月至今</th></tr></thead>
+        <tbody>${c.top.map(([n, d, y, m]) => `<tr><td class="l">${esc(n)}</td><td class="l hint">${esc(d)}</td><td class="num">${f0(y)}</td><td class="num">${m ? f0(m) : '<span class="hint">—</span>'}</td></tr>`).join('')}</tbody></table></div>
+    </section>` : ''}
+  </article>`;
+}
+function perfRules() {
+  return `<details class="rules"><summary>資料說明（BW-SD9900 銷售萬用報表）</summary><div class="rules-body">
+    <div><h4>資料範圍</h4><ul><li>北部營業處傳統客戶，BW 未稅開單金額（元）</li><li>BW 篩選已排除大安營業所、PM 代工香菸</li><li>${DP.prevYear - 1911} 年 1–12 月、${DP.year - 1911} 年 1–${DP.month} 月；「未指派」客戶不列入</li><li>報表更新：${esc(DP.refreshed || '—')}</li></ul></div>
+    <div><h4>怎麼比較</h4><ul><li>累計只算完整月份（${span()}），跟去年同期比較</li><li>${DP.month} 月還在進行中，另外跟去年 ${DP.month} 月比較，並對照時間進度</li><li>部門依 BW「產品部門」：菸類、酒類、啤酒、食品及綜合、生技</li></ul></div>
+  </div></details>`;
+}
+
+/* ════════════ 酒特陳架 ════════════ */
+function liqStatus(q) {
+  if (!q) return {cls: 'mute', txt: '—'};
+  if (q.ok) return {cls: 'good', txt: '達標'};
+  if (paceL.q != null && paceL.q < 1) return q.amt / DL.rules.amt >= paceL.q && q.items >= DL.rules.items * paceL.q ? {cls: 'warn', txt: '進行中'} : {cls: 'bad', txt: '落後'};
+  return {cls: 'bad', txt: '未達'};
+}
+let paceL = {q: null, label: '—'};
+function liqPace(d) {
+  const m = String(d.asOf || '').match(/(\d{1,2})\/(\d{1,2})/), yr = d.year ? +d.year + 1911 : new Date().getFullYear();
+  if (!m || !d.curQ) return {q: null, label: d.asOf || '—'};
+  const qs = (d.curQ - 1) * 3, start = new Date(yr, qs, 1), end = new Date(yr, qs + 3, 0), now = new Date(yr, +m[1] - 1, +m[2]);
+  return {q: Math.min(1, Math.max(0, ((now - start) / 864e5 + 1) / ((end - start) / 864e5 + 1))), label: `${d.year ? d.year + '年' : ''}${m[1]}/${m[2]}`};
+}
+const VL = {tab: 'office', office: '', flag: '', q: '', sort: 'amt', sel: null};
+const LQ = () => DL.curQ - 1;
+function lAgg(list) {
+  const a = {n: list.length, amt: 0, missA: 0, missN: 0, ok: 0, everMiss: 0, byQ: [0, 0, 0, 0].map(() => ({amt: 0, ok: 0, n: 0}))};
+  for (const s of list) {
+    const c = s._c, q = c.qs[LQ()];
+    if (q) { a.amt += q.amt; if (!q.okA) a.missA++; if (!q.okN) a.missN++; if (q.ok) a.ok++; }
+    if (c.missed) a.everMiss++;
+    c.qs.forEach((x, i) => { if (x) { a.byQ[i].amt += x.amt; a.byQ[i].n++; if (x.ok) a.byQ[i].ok++; } });
+  }
+  a.cost = a.amt ? DL.rules.cost * a.n / a.amt : null;
+  return a;
+}
+function lStrip(a) {
+  const R = DL.rules;
+  return `<div class="strip">
+    <div class="stat"><span class="k">酒特陳架店家</span><span class="v">${f0(a.n)}<small>家</small></span><span class="s">任一季曾未達標 ${f0(a.everMiss)} 家</span></div>
+    <div class="stat"><span class="k">Q${DL.curQ} 活動品項購值</span><span class="v">${wan(a.amt)}</span><span class="s">每店門檻 ${R.amt / 10000} 萬・季進度 ${pct(paceL.q, 0)}</span></div>
+    <div class="stat"><span class="k">Q${DL.curQ} 兩項皆達標</span><span class="v" style="color:${rateColor(a.n ? a.ok / a.n : 0, paceL.q)}">${f0(a.ok)}<small>/ ${f0(a.n)} 家</small></span><span class="s">未達 ${R.amt / 10000} 萬 ${a.missA} 家・未達 ${R.items} 品項 ${a.missN} 家</span></div>
+    <div class="stat"><span class="k">Q${DL.curQ} 整體支出比</span><span class="v">${pct(a.cost, 2)}</span><span class="s">每店每季 ${f0(R.cost)} 元 ÷ 購值</span></div>
+  </div>`;
+}
+function liqOffice() {
+  const all = lAgg(DL.stores), R = DL.rules, qn = DL.curQ;
+  const row = (label, a, attr = '') => `<tr ${attr}>
+    <td class="l"><span class="oname">${esc(label)}</span></td><td class="num">${f0(a.n)}</td>
+    ${[0, 1, 2, 3].slice(0, qn).map((i, k) => `<td class="${k ? '' : 'sep '}num">${f0(a.byQ[i].ok)}<span class="hint"> / ${f0(a.byQ[i].n)}</span></td>`).join('')}
+    <td class="sep num">${wan(a.amt)}</td><td class="num">${a.n ? wan(a.amt / a.n) : '—'}</td>
+    <td class="num ${a.missA ? 't-bad' : 't-good'}">${a.missA}</td><td class="num ${a.missN ? 't-bad' : 't-good'}">${a.missN}</td>
+    <td>${barCell(a.n ? a.ok / a.n : 0, paceL.q, 1)}</td><td class="num">${pct(a.cost, 2)}</td></tr>`;
+  const offices = [...new Set(DL.stores.map(s => s.office))];
+  const rows = offices.map(o => row(o, lAgg(DL.stores.filter(s => s.office === o)), `data-office="${esc(o)}" tabindex="0"`)).join('');
+  return `${lStrip(all)}${tabsHtml(VL)}
+    <div class="hint">每季要同時符合兩個條件：活動品項購值達 ${R.amt / 10000} 萬（BW 開單含稅、不含瓶箱），且購買 ${R.items} 品項以上（排除米酒類）。點營業所看該所店家。</div>
+    <div class="tablebox"><table>
+      <thead>
+        <tr><th class="l" rowspan="2">營業所</th><th rowspan="2">陳列家數</th><th class="grp" colspan="${qn}">各季達標家數</th><th class="grp" colspan="6">Q${qn}（截至 ${esc(DL.asOf)}）</th></tr>
+        <tr>${[1, 2, 3, 4].slice(0, qn).map((q, k) => `<th class="${k ? '' : 'sep'}">Q${q}</th>`).join('')}<th class="sep">購值合計</th><th>平均每店</th><th>未達 ${R.amt / 10000} 萬</th><th>未達 ${R.items} 品項</th><th class="l">達標比例</th><th>支出比</th></tr>
+      </thead>
+      <tbody>${rows}</tbody>
+      <tfoot>${row('合計', all).replace('<tr >', '<tr>')}</tfoot>
+    </table></div>${liqRules()}`;
+}
+const LFLAGS = [['missA', '本季未達 3 萬'], ['missN', '本季未達 10 品項'], ['ever', '曾有一季未達標'], ['near', '本季離門檻 2 成內']];
+function liqFiltered() {
+  const v = VL, q = v.q.trim().toLowerCase(), i = LQ(), R = DL.rules;
+  let list = DL.stores.filter(s => (!v.office || s.office === v.office) && (!q || s.name.toLowerCase().includes(q) || s.id.includes(q)));
+  const cq = s => s._c.qs[i];
+  if (v.flag === 'missA') list = list.filter(s => cq(s) && !cq(s).okA);
+  if (v.flag === 'missN') list = list.filter(s => cq(s) && !cq(s).okN);
+  if (v.flag === 'ever') list = list.filter(s => s._c.missed);
+  if (v.flag === 'near') list = list.filter(s => cq(s) && (cq(s).amt < R.amt * 1.2 || cq(s).items < R.items * 1.2));
+  const by = {amt: (a, b) => (cq(a)?.amt || 0) - (cq(b)?.amt || 0), items: (a, b) => (cq(a)?.items || 0) - (cq(b)?.items || 0), cost: (a, b) => (cq(b)?.cost || 0) - (cq(a)?.cost || 0), total: (a, b) => b._c.total - a._c.total};
+  return list.sort(by[v.sort] || by.amt);
+}
+function liqStore() {
+  const v = VL, list = liqFiltered();
+  if (!v.sel || !list.some(s => s.id === v.sel)) v.sel = list[0]?.id || null;
+  const a = lAgg(list), offices = [...new Set(DL.stores.map(s => s.office))];
+  return `${lStrip(lAgg(DL.stores.filter(s => !v.office || s.office === v.office)))}${tabsHtml(v)}
+    <div class="filters">
+      <div class="field"><label for="fOffice">營業所</label><select id="fOffice"><option value="">全部營業所</option>${offices.map(o => `<option ${o === v.office ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>
+      <div class="field"><label for="fQ">搜尋</label><input type="search" id="fQ" placeholder="店名、BW代號" value="${esc(v.q)}"></div>
+      <div class="field"><span class="fl">只看需要追的店</span><div class="chips">${LFLAGS.map(([k, l]) => chip('data-flag', k, l, v.flag === k)).join('')}</div></div>
+    </div>
+    <div class="split">
+      <div class="list">
+        <div class="listhead"><span><b style="color:var(--ink)">${f0(list.length)}</b> 家・Q${DL.curQ} ${wan(a.amt)}・達標 ${a.ok} 家</span>
+          <select id="fSort" aria-label="排序"><option value="amt">本季購值低→高</option><option value="items">本季品項數少→多</option><option value="cost">支出比高→低</option><option value="total">全年累計高→低</option></select></div>
+        <div class="rows">${list.length ? list.map(liqRow).join('') : '<div class="empty">沒有符合條件的店家，試著放寬篩選。</div>'}</div>
+      </div>
+      <div id="card">${liqCard(DL.stores.find(s => s.id === v.sel))}</div>
+    </div>${liqRules()}`;
+}
+function liqBind() {
+  const v = VL;
+  if (!$('#fOffice')) return;
+  $('#fSort').value = v.sort;
+  $('#fOffice').onchange = e => { v.office = e.target.value; v.sel = null; render(); };
+  $('#fSort').onchange = e => { v.sort = e.target.value; render(); };
+  bindSearch(v);
+  $$('[data-flag]').forEach(b => b.onclick = () => { v.flag = v.flag === b.dataset.flag ? '' : b.dataset.flag; v.sel = null; render(); });
+  bindList(liqCard, DL.stores);
+}
+function liqRow(s) {
+  const q = s._c.qs[LQ()], R = DL.rules;
+  const t = liqStatus(q);
+  return `<button class="row" data-id="${s.id}" aria-current="${s.id === VL.sel}">
+    <span class="n">${esc(s.name)}</span>
+    <span class="r"><span class="pill ${t.cls}">${t.txt}</span><span class="num">${q ? wan(q.amt) + '・' + q.items + '項' : '—'}</span></span>
+    <span class="m"><span class="mono">${s.id}</span>・${esc(s.office)}・Q${DL.curQ} 達 ${q ? pct(q.amt / R.amt, 0) : '—'}</span></button>`;
+}
+function liqCard(s) {
+  if (!s) return `<div class="card"><div class="empty">從左邊清單選一家店，就會在這裡看到各季的活動品項購值與品項數。</div></div>`;
+  const c = s._c, R = DL.rules, i = LQ(), q = c.qs[i];
+  const qRow = (x, k) => x ? `<tr class="${k === i ? 'cur' : ''}"><td class="l">Q${k + 1}${k === i ? '（本季）' : ''}</td><td class="num ${x.okA ? '' : 't-bad'}">${f0(x.amt)}</td><td class="num ${x.okN ? '' : 't-bad'}">${x.items}</td><td class="num">${pct(x.cost, 2)}</td><td><span class="pill ${k === i ? liqStatus(x).cls : x.ok ? 'good' : 'bad'}">${k === i ? liqStatus(x).txt : x.ok ? '達標' : '未達'}</span></td></tr>`
+    : `<tr><td class="l hint">Q${k + 1}</td><td class="num hint" colspan="4">尚未開始</td></tr>`;
+  return `<article class="card">
+    <div class="card-h">
+      <div style="min-width:0"><h2>${esc(s.name)}</h2>
+        <div class="meta"><span class="mono">${s.id}</span><span>${esc(s.office)}營業所</span><span>${esc(DL.year)} 年累計 <b>${f0(c.total)}</b> 元</span></div></div>
+      <div class="card-tags"><button class="golink" data-go="liq" data-id="${s.id}">查看這家全部項目</button>${q ? `<span class="pill ${liqStatus(q).cls}">Q${DL.curQ} ${q.ok ? '兩項皆達標' : liqStatus(q).txt}</span>` : ''}</div>
+    </div>
+    ${q ? `<section class="sec">
+      <h3>Q${DL.curQ} 進度（截至 ${esc(DL.asOf)}${DL.bwQ === DL.curQ ? '，BW 明細試算' : ''}）</h3>
+      <div class="kv">
+        <div><span>活動品項購值</span><strong>${f0(q.amt)}<small>元</small></strong><em class="hint">門檻 ${f0(R.amt)} 元</em></div>
+        <div><span>購買品項數</span><strong>${q.items}<small>項</small></strong><em class="hint">門檻 ${R.items} 項，排除米酒類</em></div>
+        <div><span>達成率</span><strong style="color:${rateColor(q.amt / R.amt, paceL.q)}">${pct(q.amt / R.amt)}</strong><em class="hint">季進度 ${pct(paceL.q, 0)}</em></div>
+        <div><span>支出比</span><strong>${pct(q.cost, 2)}</strong><em class="hint">${f0(R.cost)} 元 ÷ 本季購值</em></div>
+      </div>
+      ${meter(q.amt / R.amt, [[1, R.amt / 10000 + ' 萬門檻']], paceL.q < 1 ? paceL.q : null, '季進度 ' + pct(paceL.q, 0), 3, rateColor(q.amt / R.amt, paceL.q))}
+      ${!q.ok ? `<div class="note bad">${[!q.okA && `購值還差 <b class="num">${f0(q.gapA)}</b> 元`, !q.okN && `品項還差 <b class="num">${q.gapN}</b> 項`].filter(Boolean).join('，')}。</div>` : ''}
+    </section>` : ''}
+    <section class="sec">
+      <h3>各季紀錄</h3>
+      <div class="tablebox flat"><table class="qtable"><thead><tr><th class="l">季別</th><th>購值（元）</th><th>品項數</th><th>支出比</th><th class="l">結果</th></tr></thead>
+        <tbody>${c.qs.map(qRow).join('')}</tbody></table></div>
+    </section>
+  </article>`;
+}
+function liqRules() {
+  const R = DL.rules;
+  return `<details class="rules"><summary>計算規則與活動品項（${esc(DL.year)} 年酒類陳列合作）</summary><div class="rules-body">
+    <div><h4>每季購貨標準（均須符合）</h4><ul><li>活動品項購值 ${R.amt / 10000} 萬元以上：BW 開單值 × 1.05（含稅、不含瓶、不含箱）</li><li>購買活動品項 ${R.items} 項以上，排除米酒類</li><li>達成率＝本季購值 ÷ ${f0(R.amt)}；支出比＝${f0(R.cost)} ÷ 本季購值（依追蹤表公式）</li>${DL.bwQ ? `<li>Q${DL.bwQ} 追蹤表尚未出爐，先用 BW 明細試算：活動品項未稅金額 ×1.05；品項數照追蹤表 Q1–Q3 的算法（活動品項代號、含米酒頭）</li>` : ''}</ul></div>
+    ${(DL.products || []).map(g => `<div><h4>${esc(g.cat)}（${g.items.length}）</h4><ul>${g.items.map(n => `<li>${esc(n)}</li>`).join('')}</ul></div>`).join('')}
+  </div></details>`;
+}
+
+/* ════════════ 上方店家查詢：營業所 → 店家 → 勾選項目 ════════════ */
+const PICKS = [['cig', '菸架購貨'], ['beer', '啤酒五大陳列'], ['liq', '酒特陳架'], ['perf', '全品項業績']];
+const Q = {office: '', id: '', picks: new Set(), q: '', view: ''};
+let IDX = null;
+function buildIndex() {
+  const m = {}, names = {};
+  const add = (k, s, name, office) => {
+    const e = m[s.id] ??= {id: s.id, code: s.id.slice(0, 4), name: '', cig: null, beer: null, liq: null, perf: null};
+    e[k] = s; if (!e.name) e.name = name;
+    if (office && !names[e.code]) names[e.code] = office;
+  };
+  (DC?.stores || []).forEach(s => add('cig', s, s.name, s.office));
+  (DB?.stores || []).forEach(s => add('beer', s, s.name, s.office.split('/')[0]));
+  (DL?.stores || []).forEach(s => add('liq', s, s.name, s.office.split('/')[0]));
+  (DP?.customers || []).filter(perfActive).forEach(c => add('perf', c, c.name, c.office));
+  const all = Object.values(m).sort((a, b) => a.id.localeCompare(b.id));
+  const codes = [...new Set(all.map(e => e.code))].sort();
+  IDX = {all, codes, names};
+}
+function qCandidates() {
+  const qq = Q.q.trim().toLowerCase();
+  return IDX.all.filter(e => {
+    if (Q.office && e.code !== Q.office) return false;
+    if (Q.picks.size) { for (const k of Q.picks) if (!e[k]) return false; }
+    else if (!e.cig && !e.beer && !e.liq) return false; // 沒勾選時，只列至少簽一項的店
+    return !qq || e.name.toLowerCase().includes(qq) || e.id.includes(qq);
+  });
+}
+function renderQuery() {
+  if (!IDX) return;
+  const avail = {cig: !!DC, beer: !!DB, liq: !!DL, perf: !!DP};
+  const list = qCandidates();
+  if (Q.id && !list.some(e => e.id === Q.id)) Q.id = '';
+  $('#query').innerHTML = `
+    <div class="qbar">
+      <div class="field"><label for="qOffice">營業所</label>
+        <select id="qOffice"><option value="">全部營業所</option>${IDX.codes.map(c => `<option value="${c}" ${c === Q.office ? 'selected' : ''}>${esc(IDX.names[c] || c)}（${c}）</option>`).join('')}</select></div>
+      <div class="field grow"><label for="qStore">店家</label>
+        <div class="qstore">
+          <input type="search" id="qSearch" placeholder="輸入店名或代號篩選" value="${esc(Q.q)}">
+          <select id="qStore"><option value="">${list.length ? `請選擇店家（${list.length} 家）` : '沒有符合條件的店家'}</option>${list.map(e => `<option value="${e.id}" ${e.id === Q.id ? 'selected' : ''}>${esc(e.name)}・${e.id}</option>`).join('')}</select>
+        </div></div>
+      <div class="field"><span class="fl">查看項目</span>
+        <div class="checks">${PICKS.map(([k, l]) => `<label class="check ${avail[k] ? '' : 'off'}"><input type="checkbox" id="qp-${k}" data-pick="${k}" ${Q.picks.has(k) ? 'checked' : ''} ${avail[k] ? '' : 'disabled'}><span>${l}</span></label>`).join('')}</div></div>
+    </div>
+    <div class="hint">${Q.picks.size ? `${Q.picks.size > 1 ? '只列出同時有這些項目的店家' : '只列出有這個項目的店家'}，目前 ${list.length} 家。` : `店家名單只列出至少簽了菸架、啤酒五大或酒特陳架其中一項的店；要查一般客戶的業績，請勾「全品項業績」。`}</div>`;
+  $('#qOffice').onchange = e => { Q.office = e.target.value; Q.id = ''; saveQ(); renderQuery(); };
+  $('#qStore').onchange = e => { Q.id = e.target.value; saveQ(); renderQRes(); };
+  let t; $('#qSearch').oninput = e => { clearTimeout(t); t = setTimeout(() => {
+    Q.q = e.target.value; const l = qCandidates(); if (l.length === 1) Q.id = l[0].id;
+    renderQuery(); const i = $('#qSearch'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }, 250); };
+  $$('[data-pick]').forEach(b => b.onchange = () => { b.checked ? Q.picks.add(b.dataset.pick) : Q.picks.delete(b.dataset.pick); saveQ(); renderQuery(); });
+  renderQRes();
+}
+function saveQ() { store.set('tw.q', JSON.stringify({office: Q.office, id: Q.id, picks: [...Q.picks], view: Q.view})); }
+function loadQ() { try { const o = JSON.parse(store.get('tw.q') || '{}'); Q.office = o.office || ''; Q.id = o.id || ''; Q.picks = new Set(o.picks || []); Q.view = o.view || ''; } catch (e) {} }
+function renderQRes() {
+  const box = $('#qres');
+  const e = IDX.all.find(x => x.id === Q.id);
+  if (!e) { box.innerHTML = `<div class="qempty">先選營業所，再從「店家」選一家店，這裡會列出它各項目的進度與獎勵試算。</div>`; return; }
+  const items = (Q.picks.size ? [...Q.picks] : ['cig', 'beer', 'liq', 'perf']).filter(k => e[k]);
+  if (!items.includes(Q.view)) Q.view = items[0] || '';
+  const c = e.cig, b = e.beer, p = e.perf, l = e.liq, bc = b?._c, lq = l ? l._c.qs[DL.curQ - 1] : null;
+  const signed = [c && `菸架 ${c.type}`, b && `啤酒 ${b.contracts.map(k => CON_SHORT[k]).join('＋')}`, l && '酒特陳架'].filter(Boolean);
+  const tiles = [];
+  tiles.push(`<div class="qt"><span>BW代號</span><strong class="mono">${e.id}</strong><em>${esc(IDX.names[e.code] || '')}營業所</em></div>`);
+  tiles.push(`<div class="qt"><span>簽約項目</span><strong>${signed.length}<small>項</small></strong><em>${signed.length ? signed.map(esc).join('・') : '未簽菸架、啤酒五大或酒特陳架'}</em></div>`);
+  if (p) tiles.push(`<div class="qt"><span>全品項 ${span()}累計</span><strong>${wan(p._.ytd)}</strong><em class="${gCls(p._.growth)}">對去年同期 ${gTxt(p._.growth)}</em></div>`);
+  const status = {
+    cig: c ? `<b style="color:${rateColor(c.rate, paceC.m)}">${pct(c.rate, 0)}</b>` : '',
+    beer: b ? `<b>${boxTxt(bc.buyBoxes * 24 + bc.displayCans)}</b>` : '',
+    liq: lq ? `<b class="t-${liqStatus(lq).cls}">Q${DL.curQ} ${liqStatus(lq).txt}</b>` : '',
+    perf: p ? `<b class="${gCls(p._.growth)}">${gTxt(p._.growth)}</b>` : '',
+  };
+  const sub = {cig: '本月達成', beer: '本月可領', liq: '', perf: '累計'};
+  const cards = {cig: () => cigCard(c), beer: () => beerCard(b), liq: () => liqCard(l), perf: () => perfCard(p)};
+  const titles = {cig: '菸架購貨', beer: '啤酒五大陳列', liq: '酒特陳架', perf: '全品項業績'};
+  box.innerHTML = `
+    <div class="qhead"><h2>${esc(e.name)}</h2></div>
+    <div class="qtiles">${tiles.join('')}</div>
+    ${items.length ? `<div class="qtabs" role="tablist" aria-label="店家項目">${items.map(k => `<button class="qtab" role="tab" data-view="${k}" aria-selected="${k === Q.view}"><span>${titles[k]}</span><small>${sub[k]} ${status[k]}</small></button>`).join('')}</div>
+    <div id="qcard">${cards[Q.view]()}</div>` : '<div class="qempty">這家店沒有勾選項目的資料。</div>'}`;
+  $$('[data-view]').forEach(t => t.onclick = () => { Q.view = t.dataset.view; saveQ(); $$('[data-view]').forEach(x => x.setAttribute('aria-selected', x === t)); $('#qcard').innerHTML = cards[Q.view](); });
+}
+function goTo(prod, id) {
+  const e = IDX?.all.find(x => x.id === id);
+  if (e) { Q.id = id; Q.office = e.code; Q.q = ''; Q.view = prod; if (Q.picks.size && ![...Q.picks].every(k => e[k])) Q.picks.clear(); if (!Q.picks.size && !e.cig && !e.beer && !e.liq) Q.picks.add('perf'); saveQ(); }
+  S.prod = 'query'; store.set('tw.prod', S.prod); render(); window.scrollTo({top: 0});
+}
+document.addEventListener('click', e => { const b = e.target.closest?.('[data-go]'); if (b) goTo(b.dataset.go, b.dataset.id); });
+
+/* ════════════ 主框架 ════════════ */
+function renderHead() {
+  $$('[data-prod]').forEach(b => b.setAttribute('aria-selected', b.dataset.prod === S.prod));
+  if (S.prod === 'query') {
+    $('#org').textContent = '北部營業處・傳統通路';
+    $('#h1').textContent = '傳統通路戰情表';
+    $('#asof').textContent = [DC && '菸架 ' + paceC.label.replace(/^\d+年/, ''), DB && '啤酒 ' + DB.asOf.split(' ')[0], DL && '酒特陳架 ' + DL.asOf, DP && 'BW ' + pacePf.label.split(' ')[0]].filter(Boolean).join('・') || '—';
+    $('#paceBox').innerHTML = '';
+  } else if (S.prod === 'liq') {
+    $('#org').textContent = '北部營業處・傳統酒類陳列簽約店家';
+    $('#h1').textContent = '酒特陳架戰情表';
+    $('#asof').textContent = DL ? paceL.label : '—';
+    $('#paceBox').innerHTML = DL ? `Q${DL.curQ} 季進度 <b style="color:var(--pace)">${pct(paceL.q, 0)}</b>` : '';
+  } else if (S.prod === 'perf') {
+    $('#org').textContent = '北部營業處・傳統客戶・BW 開單金額';
+    $('#h1').textContent = '全品項業績戰情表';
+    $('#asof').textContent = DP ? `${DP.year - 1911}年${DP.month}月・更新 ${pacePf.label}` : '—';
+    $('#paceBox').innerHTML = DP ? `時間進度 月 <b style="color:var(--pace)">${pct(pacePf.m, 0)}</b>` : '';
+  } else if (S.prod === 'beer') {
+    $('#org').textContent = (DB?.region ? DB.region + '營業處・' : '') + '傳統通路啤酒效益店家';
+    $('#h1').textContent = '啤酒五大陳列戰情表';
+    $('#asof').textContent = DB ? DB.asOf : '—';
+    $('#paceBox').innerHTML = DB ? `時間進度 月 <b style="color:var(--pace)">${pct(paceB.m, 0)}</b>・年 <b style="color:var(--pace)">${pct(paceB.y, 0)}</b>` : '';
+  } else {
+    const org = DC ? (String(DC.title).match(/\d+年(.+?營業處)/) || [])[1] : '';
+    $('#org').textContent = (org ? org + '・' : '') + '傳統通路菸架客戶';
+    $('#h1').textContent = '菸架購貨戰情表';
+    $('#asof').textContent = DC ? paceC.label : '—';
+    $('#paceBox').innerHTML = DC ? `時間進度 月 <b style="color:var(--pace)">${pct(paceC.m, 0)}</b>・季 <b style="color:var(--pace)">${pct(paceC.q, 0)}</b>` : '';
+  }
+}
+function render() {
+  renderHead();
+  const q = S.prod === 'query';
+  $('#secQuery').hidden = !q; $('#app').hidden = q;
+  if (q) { renderQuery(); return; }
+  const beer = S.prod === 'beer', perf = S.prod === 'perf', liq = S.prod === 'liq', D = liq ? DL : perf ? DP : beer ? DB : DC, v = st();
+  if (!D) { $('#app').innerHTML = noData(liq ? '酒特陳架' : perf ? '全品項業績' : beer ? '啤酒' : '菸架'); return; }
+  const html = liq ? (v.tab === 'store' ? liqStore() : liqOffice()) : perf ? (v.tab === 'store' ? perfStore() : perfOffice()) : beer ? (v.tab === 'store' ? beerStore() : beerOffice()) : (v.tab === 'store' ? cigStore() : cigOffice());
+  $('#app').innerHTML = `<div class="stack">${html}</div>`;
+  bindCommon();
+  if (v.tab === 'store') liq ? liqBind() : perf ? perfBind() : beer ? beerBind() : cigBind();
+}
+function setCig(d) { DC = d; paceC = cigPace(d); }
+function setLiq(d) { DL = d; DL._orig = {curQ: d.curQ, asOf: d.asOf}; mergeLiq(); }
+/* 酒特陳架：追蹤表沒有的季別，用 BW 明細補上（購值 ×1.05、品項數照追蹤表算法） */
+function mergeLiq() {
+  if (!DL) return;
+  const o = DL._orig || {curQ: DL.curQ, asOf: DL.asOf};
+  DL.curQ = o.curQ; DL.asOf = o.asOf; DL.bwQ = 0;
+  if (DP && DP.year === +DL.year + 1911) {
+    const qN = Math.floor((DP.month - 1) / 3) + 1, map = new Map(DP.customers.map(c => [c.id, c]));
+    if (qN > o.curQ) {
+      for (const s of DL.stores) for (let q = o.curQ; q < qN; q++) { const L = map.get(s.id)?.liq; s.amts[q] = L ? Math.round(L.a[q] * 1.05) : 0; s.items[q] = L ? L.n[q] : 0; }
+      DL.curQ = qN; DL.bwQ = qN; const m = String(DP.refreshed).match(/\d{4}\/(\d{1,2})\/(\d{1,2})/); if (m) DL.asOf = `${m[1]}/${m[2]}`;
+    }
+  }
+  DL.stores.forEach(s => s._c = liqCalc(s, DL.rules, DL.curQ)); paceL = liqPace(DL);
+  if (paceL.q != null && paceL.q < 1) DL.stores.forEach(s => { const q = s._c.qs[DL.curQ - 1]; if (q && !q.ok) s._c.missed--; });
+}
+function setPerf(d) { if (d.kind !== 'perf2') { DP = null; return; } perfPrep(d); DP = d; pacePf = perfPace(d); mergeLiq(); }
+function setBeer(d) { d.stores.forEach(s => s._c = beerCalc(s)); DB = d; paceB = beerPace(d); }
+$$('[data-prod]').forEach(b => b.onclick = () => { S.prod = b.dataset.prod; store.set('tw.prod', S.prod); render(); });
+
+/* ── 密碼解鎖 ── */
+const SKEY = 'tw.pw';
+const sget = () => { try { return sessionStorage.getItem(SKEY); } catch (e) { return null; } };
+const sset = v => { try { v ? sessionStorage.setItem(SKEY, v) : sessionStorage.removeItem(SKEY); } catch (e) {} };
+async function openAll(raw, pw) { return Promise.all(raw.map(o => TWCrypt.isEnc(o) ? TWCrypt.decrypt(o, pw) : o)); }
+async function unlock(raw) {
+  const saved = sget();
+  if (saved) { try { return await openAll(raw, saved); } catch (e) { sset(null); } }
+  document.body.classList.add('locked'); $('#lock').hidden = false;
+  if (!window.crypto?.subtle || typeof DecompressionStream === 'undefined') { $('#lockMsg').textContent = '這個瀏覽器版本太舊，無法解密。請改用最新版的 Chrome 或 Edge。'; $('#lockMsg').className = 'msg err'; }
+  setTimeout(() => $('#lockPw').focus(), 50);
+  return new Promise(resolve => {
+    $('#lockForm').onsubmit = async e => {
+      e.preventDefault();
+      const pw = $('#lockPw').value, btn = $('#lockBtn'), m = $('#lockMsg');
+      btn.disabled = true; m.className = 'msg'; m.textContent = '解密中…';
+      try {
+        const out = await openAll(raw, pw);
+        sset(pw); document.body.classList.remove('locked'); $('#lock').hidden = true; m.textContent = '';
+        resolve(out);
+      } catch (err) { m.className = 'msg err'; m.textContent = '密碼不正確，請再試一次。'; $('#lockPw').select(); }
+      finally { btn.disabled = false; }
+    };
+  });
+}
+async function getJson(path) { try { const r = await fetch(path, {cache: 'no-store'}); return r.ok ? await r.json() : null; } catch (e) { return null; } }
+async function load() {
+  const p = store.get('tw.prod'); if (['query', 'beer', 'cig', 'perf', 'liq'].includes(p)) S.prod = p;
+  ['cig', 'beer', 'perf', 'liq'].forEach(k => { const t = store.get('tw.tab.' + k); if (t === 'store' || t === 'office') ({cig: VC, beer: VB, perf: VP, liq: VL})[k].tab = t; });
+  let raw = await Promise.all([getJson('data.json'), getJson('beer.json'), getJson('perf.json'), getJson('liq.json')]);
+  if (raw.some(TWCrypt.isEnc)) raw = await unlock(raw);
+  const [c, b, pf, lq] = raw;
+  if (lq) try { setLiq(lq); } catch (e) { DL = null; }
+  if (pf) try { setPerf(pf); } catch (e) { DP = null; }
+  loadQ();
+  if (c) setCig(c);
+  if (b) try { setBeer(b); } catch (e) { DB = null; }
+  buildIndex(); render();
+}
+
+let canWrite = false;
+
+load();
+})();
+</script>
+
+</body></html>
+</body>
+</html>
