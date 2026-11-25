@@ -257,6 +257,137 @@ table.qtable tr.cur td{background:var(--accent-soft);font-weight:600}
 td .sub{font-size:11px;font-weight:500}
 .chartkey .k4{background:var(--accent-soft);border:1.5px solid var(--accent)}
 
+/* ═══ 行銷版視覺：深藍主視覺＋五色分區 ═══
+   版面：主視覺頁首 → 彩色分區按鈕（黏頂）→ 返回／展開收合工具列 → 內容 */
+:root{
+  --bg:#F3F5FA; --surface:#FFFFFF; --sunk:#EAEEF6; --ink:#121A2E; --muted:#5B6787; --line:#DCE2EE;
+  --hero:#0F1B3F; --hero-2:#1B2C63; --hero-ink:#FFFFFF; --hero-muted:#B7C4EC;
+  --sec-query:#D62F6B; --sec-query-soft:#FDE7EF;
+  --sec-cig:#1D63DB;   --sec-cig-soft:#E4EDFF;
+  --sec-beer:#CF6A00;  --sec-beer-soft:#FFF0DC;
+  --sec-liq:#8A35D0;   --sec-liq-soft:#F2E7FD;
+  --sec-perf:#0E9A55;  --sec-perf-soft:#DEF5E9;
+  --accent:var(--sec-query); --accent-soft:var(--sec-query-soft); --accent-ink:#FFFFFF;
+  --f-display:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --r:14px; --shadow:0 1px 2px rgba(18,26,46,.06),0 6px 18px rgba(18,26,46,.06);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0B1020; --surface:#141B30; --sunk:#1B2440; --ink:#E7ECF8; --muted:#97A3C4; --line:#28324F;
+  --hero:#0A1230; --hero-2:#16245A; --hero-ink:#FFFFFF; --hero-muted:#A9B6DE;
+  --sec-query:#FF6B9A; --sec-query-soft:#3B1426; --sec-cig:#6FA3FF; --sec-cig-soft:#132546;
+  --sec-beer:#FFAE4A; --sec-beer-soft:#3A2710; --sec-liq:#C390FF; --sec-liq-soft:#2B1A40;
+  --sec-perf:#4FD68E; --sec-perf-soft:#10301F; --accent-ink:#0B1020; --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1020; --surface:#141B30; --sunk:#1B2440; --ink:#E7ECF8; --muted:#97A3C4; --line:#28324F;
+  --hero:#0A1230; --hero-2:#16245A; --hero-ink:#FFFFFF; --hero-muted:#A9B6DE;
+  --sec-query:#FF6B9A; --sec-query-soft:#3B1426; --sec-cig:#6FA3FF; --sec-cig-soft:#132546;
+  --sec-beer:#FFAE4A; --sec-beer-soft:#3A2710; --sec-liq:#C390FF; --sec-liq-soft:#2B1A40;
+  --sec-perf:#4FD68E; --sec-perf-soft:#10301F; --accent-ink:#0B1020; --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark}
+body[data-sec="query"]{--accent:var(--sec-query);--accent-soft:var(--sec-query-soft)}
+body[data-sec="cig"]{--accent:var(--sec-cig);--accent-soft:var(--sec-cig-soft)}
+body[data-sec="beer"]{--accent:var(--sec-beer);--accent-soft:var(--sec-beer-soft)}
+body[data-sec="liq"]{--accent:var(--sec-liq);--accent-soft:var(--sec-liq-soft)}
+body[data-sec="perf"]{--accent:var(--sec-perf);--accent-soft:var(--sec-perf-soft)}
+body{background:var(--bg)}
+.wrap{gap:16px;padding-block:16px 56px}
+h1,.card-h h2,.qhead h2,h2.sect,.lockbox h2{font-family:var(--f-display);font-weight:900;letter-spacing:.01em}
+
+/* 主視覺頁首 */
+.hero{background:linear-gradient(120deg,var(--hero) 0%,var(--hero-2) 100%);color:var(--hero-ink);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.hero-in{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px 24px;padding:22px clamp(18px,3vw,32px) 20px}
+.hero .eyebrow{color:var(--hero-muted);letter-spacing:.16em;font-weight:700}
+.hero h1{color:var(--hero-ink);font-size:clamp(26px,4.4vw,40px)}
+.hero .asof{gap:8px}
+.chip-asof,.chip-pace:not(:empty){background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:var(--hero-muted);border-radius:999px;padding:5px 12px;font-size:13px}
+.hero .asof b{color:#fff}
+.chip-pace b{color:#FFD86B!important}
+.stripe{display:grid;grid-template-columns:repeat(5,1fr);height:6px}
+.stripe i:nth-child(1){background:var(--sec-query)}.stripe i:nth-child(2){background:var(--sec-cig)}.stripe i:nth-child(3){background:var(--sec-beer)}.stripe i:nth-child(4){background:var(--sec-liq)}.stripe i:nth-child(5){background:var(--sec-perf)}
+
+/* 分區按鈕 */
+.topnav{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:6px;gap:6px;box-shadow:var(--shadow)}
+.topnav .prod{border-radius:11px;padding:10px 14px;color:var(--ink);font-weight:700;transition:background .15s,color .15s}
+.topnav .prod[data-prod="query"]{--c:var(--sec-query);--cs:var(--sec-query-soft)}
+.topnav .prod[data-prod="cig"]{--c:var(--sec-cig);--cs:var(--sec-cig-soft)}
+.topnav .prod[data-prod="beer"]{--c:var(--sec-beer);--cs:var(--sec-beer-soft)}
+.topnav .prod[data-prod="liq"]{--c:var(--sec-liq);--cs:var(--sec-liq-soft)}
+.topnav .prod[data-prod="perf"]{--c:var(--sec-perf);--cs:var(--sec-perf-soft)}
+.topnav .prod .pk{background:var(--cs);border-color:var(--c);color:var(--c);font-family:var(--f-display)}
+.topnav .prod:hover{background:var(--cs)}
+.topnav .prod[aria-selected="true"]{background:var(--c);color:var(--accent-ink);box-shadow:0 4px 14px color-mix(in srgb,var(--c) 35%,transparent)}
+.topnav .prod[aria-selected="true"] .pk{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.6);color:var(--accent-ink)}
+
+/* 工具列：返回／目前位置／展開收合 */
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.toolbar .sp{flex:1}
+.tbtn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;font-weight:600;font-size:13px;cursor:pointer}
+.tbtn:hover{border-color:var(--accent);color:var(--accent)}
+.tbtn.back{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.tbtn.back:hover{color:var(--accent-ink);filter:brightness(1.08)}
+.crumb{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-size:13px;color:var(--muted);min-width:0}
+.crumb i{font-style:normal;opacity:.6}
+.crumb .cur{color:var(--ink);font-weight:700}
+
+/* 區塊卡片 */
+.strip,.tablebox,.filters,.card,.list,#query,.qtiles,details.rules{border-radius:var(--r);box-shadow:var(--shadow)}
+.strip{border:0;background:var(--surface)}
+.stat{padding:16px 20px}
+.stat .k{font-weight:700;color:var(--muted)}
+.stat .v{font-size:28px;color:var(--ink)}
+.stat:first-child{background:var(--accent);color:var(--accent-ink);border-radius:var(--r) 0 0 var(--r)}
+.stat:first-child .k,.stat:first-child .s,.stat:first-child .v small{color:color-mix(in srgb,var(--accent-ink) 78%,transparent)}
+.stat:first-child .v{color:var(--accent-ink)}
+@media (max-width:760px){.stat:first-child{border-radius:var(--r) 0 0 0}}
+th{background:var(--accent-soft);color:var(--ink);font-weight:700}
+tfoot td{background:var(--sunk)}
+.tabs{border-bottom:0;gap:6px}
+.tab{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 18px;margin:0;font-weight:700}
+.tab[aria-selected="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.chip[aria-pressed="true"],.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.card-h{background:linear-gradient(90deg,var(--accent-soft),transparent 70%)}
+.qtab[aria-selected="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 -3px 0 var(--accent)}
+.qhead h2{color:var(--ink)}
+.qlabel,.golink,.con{color:var(--accent)}
+.con{border-color:var(--accent)}
+
+/* 展開／收合 */
+.fold.blk{display:flex;flex-direction:column;gap:8px}
+.fold-title{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;font-weight:800;letter-spacing:.08em;color:var(--muted);cursor:pointer;user-select:none;padding:2px 4px}
+.fold-title span:first-child::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--accent);margin-right:8px;vertical-align:1px}
+.fold-h{cursor:pointer;user-select:none}
+.fold-h:hover{color:var(--accent)}
+.caret{width:22px;height:22px;flex:0 0 22px;border-radius:50%;background:var(--sunk);display:inline-grid;place-items:center;margin-left:auto}
+.caret::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .15s}
+.closed > .fold-h .caret::before{transform:translateY(1px) rotate(-135deg)}
+.fold.blk.closed > .fold-b{display:none}
+.sec.closed > :not(h3){display:none}
+.sec.closed{padding-block:12px}
+@media (prefers-reduced-motion:reduce){.caret::before,.topnav .prod{transition:none}}
+@media (max-width:600px){
+  .crumb{order:3;flex-basis:100%}
+  .tbtn{padding:5px 11px}
+  .stat{padding:12px 14px}
+  .stat .v{font-size:21px}
+  .hero-in{padding:18px 16px 16px}
+}
+
+/* 上方查詢列（各分區共用） */
+.seek{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 16px;background:var(--surface);border:2px solid var(--accent-soft);border-radius:var(--r);padding:14px 18px;box-shadow:var(--shadow)}
+.seek-f{display:flex;flex-direction:column;gap:6px;min-width:min(100%,180px)}
+.seek-f.grow{flex:1 1 280px}
+.seek-f label{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--ink)}
+.seek-f label b{width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:inline-grid;place-items:center;font-size:12px}
+.seek select,.seek input[type=search]{height:44px;font-size:15px;border:1.5px solid var(--line);border-radius:10px;padding:0 12px;background:var(--bg);color:var(--ink);width:100%}
+.seek select:focus,.seek input:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+.seek .tbtn{height:44px}
+.seek .tbtn:disabled{opacity:.45;cursor:default}
+.seek.in-query{border:0;box-shadow:none;padding:0}
+.seek.in-query .qstore{flex-wrap:nowrap}
+.seek.in-query .qstore input{flex:0 1 220px}
+@media (max-width:640px){.seek.in-query .qstore{flex-wrap:wrap}.seek.in-query .qstore input{flex:1 1 100%}}
+.seek-more{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding-top:6px;border-top:1px dashed var(--line)}
+.seek-more .fl{font-size:13px;font-weight:700;color:var(--muted)}
+
 /* 密碼畫面 */
 body.locked .topnav,body.locked #secQuery,body.locked #app,body.locked .asof{display:none!important}
 .lock{display:flex;justify-content:center;padding-block:40px}
@@ -268,16 +399,18 @@ body.locked .topnav,body.locked #secQuery,body.locked #app,body.locked .asof{dis
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
-    <div class="brand">
-      <span class="eyebrow" id="org">傳統通路</span>
-      <h1 id="h1">傳統通路戰情表</h1>
+  <header class="hero">
+    <div class="hero-in">
+      <div class="brand">
+        <span class="eyebrow" id="org">傳統通路</span>
+        <h1 id="h1">傳統通路戰情表</h1>
+      </div>
+      <div class="asof">
+        <span class="chip-asof">資料截至 <b id="asof">—</b></span>
+        <span id="paceBox" class="chip-pace"></span>
+      </div>
     </div>
-    <div class="asof">
-      <span>資料截至 <b id="asof">—</b></span>
-      <span id="paceBox"></span>
-      
-    </div>
+    <div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
   </header>
 
   <nav class="topnav" role="tablist" aria-label="切換畫面">
@@ -300,6 +433,13 @@ body.locked .topnav,body.locked #secQuery,body.locked #app,body.locked .asof{dis
       <div class="msg" id="lockMsg" role="status"></div>
     </form>
   </section>
+  <div class="toolbar" id="toolbar">
+    <button class="tbtn back" id="btnBack" type="button" hidden>← 返回</button>
+    <nav class="crumb" id="crumb" aria-label="目前位置"></nav>
+    <span class="sp"></span>
+    <button class="tbtn" id="btnExpand" type="button">全部展開</button>
+    <button class="tbtn" id="btnCollapse" type="button">全部收合</button>
+  </div>
   <section id="secQuery" class="stack">
     <div id="query"><div class="loading" style="padding:20px 0">正在載入資料…</div></div>
     <div id="qres"></div>
@@ -757,10 +897,10 @@ const wan = n => (n == null || !isFinite(n)) ? '—' : (n / 10000).toLocaleStrin
 const boxTxt = cans => { if (!cans) return '0 箱'; const b = Math.floor(cans / 24), r = cans % 24, h = r / 6; return (b ? b + ' 箱' : '') + (h ? (b ? ' ' : '') + h + ' 手' : ''); };
 const store = {get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }};
 
-let DC = null, DB = null, DP = null, DL = null, pending = null;
+let DC = null, DB = null, DP = null, DL = null, pending = null, REP = new Map();
 const S = {prod: 'cig'};
-const VC = {tab: 'office', office: '', rep: '', types: new Set(), flag: '', q: '', sort: 'rate', sel: null};
-const VB = {tab: 'office', office: '', grades: new Set(), cons: new Set(), flag: '', q: '', sort: 'year', sel: null};
+const VC = {tab: 'store', office: '', rep: '', types: new Set(), flag: '', q: '', sort: 'rate', sel: null};
+const VB = {tab: 'store', office: '', rep: '', grades: new Set(), cons: new Set(), flag: '', q: '', sort: 'year', sel: null};
 const st = () => S.prod === 'beer' ? VB : S.prod === 'perf' ? VP : S.prod === 'liq' ? VL : VC;
 S.prod = 'query';
 
@@ -781,8 +921,8 @@ function meter(rate, ticks, paceAt, paceLabel, max, color) {
 }
 function tabsHtml(v) {
   return `<div class="tabs" role="tablist">
-    <button class="tab" role="tab" data-tab="office" aria-selected="${v.tab === 'office'}">營業所總覽</button>
-    <button class="tab" role="tab" data-tab="store" aria-selected="${v.tab === 'store'}">追蹤名單</button></div>`;
+    <button class="tab" role="tab" data-tab="store" aria-selected="${v.tab === 'store'}">店家明細</button>
+    <button class="tab" role="tab" data-tab="office" aria-selected="${v.tab === 'office'}">營業所總覽</button></div>`;
 }
 function bindCommon() {
   $$('[data-tab]').forEach(b => b.onclick = () => { st().tab = b.dataset.tab; store.set('tw.tab.' + S.prod, st().tab); render(); });
@@ -794,14 +934,43 @@ function bindCommon() {
 }
 function bindList(cardFn, list) {
   $$('.row').forEach(b => b.onclick = () => {
-    st().sel = b.dataset.id;
+    st().sel = b.dataset.id; st().picked = b.dataset.id;
     $$('.row').forEach(x => x.setAttribute('aria-current', x === b));
     $('#card').innerHTML = cardFn(list.find(s => s.id === st().sel));
+    decorate($('#card')); track();
     if (window.matchMedia('(max-width:900px)').matches) $('#card').scrollIntoView({behavior: 'smooth', block: 'start'});
   });
 }
 function bindSearch(v) {
-  let t; $('#fQ').oninput = e => { clearTimeout(t); t = setTimeout(() => { v.q = e.target.value; v.sel = null; render(); const i = $('#fQ'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }, 220); };
+  const i0 = $('#qbQ'); if (!i0) return;
+  let t; i0.oninput = e => { clearTimeout(t); t = setTimeout(() => { v.q = e.target.value; v.sel = null; v.picked = ''; v.tab = 'store'; render(); const i = $('#qbQ'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }, 260); };
+}
+/* ── 上方查詢列：營業所 → 負責訪員 → 搜尋店家 ── */
+const secStores = () => ({cig: DC?.stores, beer: DB?.stores, liq: DL?.stores, perf: DP?.customers})[S.prod] || [];
+const secOffices = () => ({cig: DC?.offices, beer: DB?.offices, liq: DL ? [...new Set(DL.stores.map(s => s.office))] : [], perf: DP?.offices})[S.prod] || [];
+function repOptions(office, stores) {
+  if (!DC) return null;
+  const codes = office ? new Set(stores.filter(s => s.office === office).map(s => s.id.slice(0, 4))) : null;
+  return [...new Set(DC.stores.filter(s => !codes || codes.has(s.id.slice(0, 4))).map(s => s.rep).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'zh-Hant'));
+}
+function qbarHtml(v) {
+  const offs = secOffices(), reps = repOptions(v.office, secStores());
+  if (reps && v.rep && !reps.includes(v.rep)) v.rep = '';
+  const any = v.office || v.rep || v.q;
+  return `<section class="seek" aria-label="查詢條件">
+    <div class="seek-f"><label for="qbOffice"><b>1</b>營業所</label><select id="qbOffice"><option value="">全部營業所</option>${offs.map(o => `<option value="${esc(o)}" ${o === v.office ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>
+    ${reps ? `<div class="seek-f"><label for="qbRep"><b>2</b>負責訪員</label><select id="qbRep"><option value="">全部訪員</option>${reps.map(r => `<option ${r === v.rep ? 'selected' : ''}>${esc(r)}</option>`).join('')}</select></div>` : ''}
+    <div class="seek-f grow"><label for="qbQ"><b>${reps ? 3 : 2}</b>搜尋店家</label><input type="search" id="qbQ" placeholder="輸入店名或客戶代號" value="${esc(v.q)}"></div>
+    <button class="tbtn" id="qbClear" type="button" ${any ? '' : 'disabled'}>清除條件</button>
+  </section>`;
+}
+function bindQbar(v) {
+  if (!$('#qbOffice')) return;
+  const go = () => { v.sel = null; v.picked = ''; v.tab = 'store'; store.set('tw.tab.' + S.prod, 'store'); render(); };
+  $('#qbOffice').onchange = e => { v.office = e.target.value; go(); };
+  if ($('#qbRep')) $('#qbRep').onchange = e => { v.rep = e.target.value; go(); };
+  $('#qbClear').onclick = () => { v.office = ''; v.rep = ''; v.q = ''; go(); };
+  bindSearch(v);
 }
 const chip = (attr, val, label, on) => `<button class="chip" ${attr}="${esc(val)}" aria-pressed="${on}">${esc(label)}</button>`;
 const noData = what => `<div class="card"><div class="empty" style="padding:48px 16px">還沒有${what}資料。${canWrite ? '按右上角「更新資料」上傳 Excel。' : '請管理者上傳 Excel。'}</div></div>`;
@@ -840,7 +1009,7 @@ function teamPts(a) {
 function cStrip(a) {
   const qr = a.qPrev ? a.qCur / a.qPrev : 0;
   return `<div class="strip">
-    <div class="stat"><span class="k">菸架客戶</span><span class="v">${f0(a.n)}<small>家</small></span><span class="s">${DC.offices.length} 個營業所・已達標 ${f0(a.hit)} 家</span></div>
+    <div class="stat"><span class="k">菸架客戶</span><span class="v">${f0(a.n)}<small>家</small></span><span class="s">${a.n === DC.stores.length ? DC.offices.length + ' 個營業所・' : ''}已達標 ${f0(a.hit)} 家</span></div>
     <div class="stat"><span class="k">本月購貨／目標</span><span class="v">${f0(a.b)}<small>/ ${f0(a.t)} 條</small></span><span class="s">達 100% 尚差 ${f0(Math.max(0, a.t - a.b))} 條</span></div>
     <div class="stat"><span class="k">整體達成率</span><span class="v" style="color:${rateColor(a.rate, paceC.m)}">${pct(a.rate)}</span><span class="s">時間進度 ${pct(paceC.m, 0)}・努力目標 120%</span></div>
     <div class="stat"><span class="k">${esc(DC.qCurLabel)} 季購值達成</span><span class="v" style="color:${rateColor(qr, paceC.q)}">${pct(qr)}</span><span class="s">對比 ${esc(DC.qPrevLabel)}・季進度 ${pct(paceC.q, 0)}</span></div>
@@ -909,11 +1078,8 @@ function cigStore() {
   const list = cigFiltered();
   if (!v.sel || !list.some(s => s.id === v.sel)) v.sel = list[0]?.id || null;
   const a = cAgg(list);
-  return `${cStrip(cAgg(DC.stores.filter(s => !v.office || s.office === v.office)))}${tabsHtml(v)}
+  return `${cStrip(cAgg(DC.stores.filter(s => (!v.office || s.office === v.office) && (!v.rep || s.rep === v.rep))))}${tabsHtml(v)}
     <div class="filters">
-      <div class="field"><label for="fOffice">營業所</label><select id="fOffice"><option value="">全部營業所</option>${DC.offices.map(o => `<option ${o === v.office ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>
-      <div class="field"><label for="fRep">負責訪員</label><select id="fRep"><option value="">全部訪員</option>${reps.map(r => `<option ${r === v.rep ? 'selected' : ''}>${esc(r)}</option>`).join('')}</select></div>
-      <div class="field"><label for="fQ">搜尋</label><input type="search" id="fQ" placeholder="店名、客戶代號、地址" value="${esc(v.q)}"></div>
       <div class="field"><span class="fl">簽約型態（可複選）</span><div class="chips">${TYPES.map(t => chip('data-type', t, t, v.types.has(t))).join('')}</div></div>
       <div class="field"><span class="fl">只看需要追的店</span><div class="chips">${CFLAGS.filter(([k]) => k !== 'audit' || DC.hasAudit).map(([k, l]) => chip('data-flag', k, l, v.flag === k)).join('')}</div></div>
     </div>
@@ -928,10 +1094,8 @@ function cigStore() {
 }
 function cigBind() {
   const v = VC;
-  if (!$('#fOffice')) return;
+  if (!$('#fSort')) return;
   $('#fSort').value = v.sort;
-  $('#fOffice').onchange = e => { v.office = e.target.value; v.sel = null; render(); };
-  $('#fRep').onchange = e => { v.rep = e.target.value; v.sel = null; render(); };
   $('#fSort').onchange = e => { v.sort = e.target.value; render(); };
   bindSearch(v);
   $$('[data-type]').forEach(b => b.onclick = () => { const k = b.dataset.type; v.types.has(k) ? v.types.delete(k) : v.types.add(k); v.sel = null; render(); });
@@ -1072,7 +1236,7 @@ function beerOffice() {
 const BFLAGS = [['push', '未達催購門檻'], ['buy0', '本月購貨獎勵 0 箱'], ['disp', '陳列獎勵未拿滿'], ['yearBehind', '年度落後時間進度'], ['yearNo', '年度未達 105%'], ['two', '簽兩項']];
 function beerFiltered() {
   const v = VB, q = v.q.trim().toLowerCase();
-  let list = DB.stores.filter(s => (!v.office || s.office === v.office) && (!v.grades.size || v.grades.has(s.year?.grade)) &&
+  let list = DB.stores.filter(s => (!v.office || s.office === v.office) && (!v.rep || REP.get(s.id) === v.rep) && (!v.grades.size || v.grades.has(s.year?.grade)) &&
     (!v.cons.size || s.contracts.some(k => v.cons.has(k))) && (!q || s.name.toLowerCase().includes(q) || s.id.includes(q)));
   const f = v.flag;
   if (f === 'push') list = list.filter(s => s._c.pushGap > 0);
@@ -1089,10 +1253,8 @@ function beerStore() {
   const v = VB, list = beerFiltered();
   if (!v.sel || !list.some(s => s.id === v.sel)) v.sel = list[0]?.id || null;
   const a = bAgg(list);
-  return `${bStrip(bAgg(DB.stores.filter(s => !v.office || s.office === v.office)))}${tabsHtml(v)}
+  return `${bStrip(bAgg(DB.stores.filter(s => (!v.office || s.office === v.office) && (!v.rep || REP.get(s.id) === v.rep))))}${tabsHtml(v)}
     <div class="filters">
-      <div class="field"><label for="fOffice">營業所</label><select id="fOffice"><option value="">全部營業所</option>${DB.offices.map(o => `<option ${o === v.office ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>
-      <div class="field"><label for="fQ">搜尋</label><input type="search" id="fQ" placeholder="店名、BW代號" value="${esc(v.q)}"></div>
       <div class="field"><span class="fl">簽約項目（可複選）</span><div class="chips">${CON_KEYS.map(k => chip('data-con', k, CON_SHORT[k], v.cons.has(k))).join('')}</div></div>
       <div class="field"><span class="fl">客戶分級</span><div class="chips">${['A', 'B', 'C'].map(g => chip('data-grade', g, '五大' + g + '級', v.grades.has(g))).join('')}</div></div>
       <div class="field"><span class="fl">只看需要追的店</span><div class="chips">${BFLAGS.map(([k, l]) => chip('data-flag', k, l, v.flag === k)).join('')}</div></div>
@@ -1108,9 +1270,8 @@ function beerStore() {
 }
 function beerBind() {
   const v = VB;
-  if (!$('#fOffice')) return;
+  if (!$('#fSort')) return;
   $('#fSort').value = v.sort;
-  $('#fOffice').onchange = e => { v.office = e.target.value; v.sel = null; render(); };
   $('#fSort').onchange = e => { v.sort = e.target.value; render(); };
   bindSearch(v);
   $$('[data-con]').forEach(b => b.onclick = () => { const k = b.dataset.con; v.cons.has(k) ? v.cons.delete(k) : v.cons.add(k); v.sel = null; render(); });
@@ -1216,7 +1377,7 @@ function perfPrep(d) {
     c._.drop = Math.max(0, c._.ytdP - c._.ytd);
   }
 }
-const VP = {tab: 'office', office: '', depts: new Set(), flag: '', q: '', sort: 'drop', sel: null};
+const VP = {tab: 'store', office: '', rep: '', depts: new Set(), flag: '', q: '', sort: 'drop', sel: null};
 const perfActive = c => c._ && (c._.ytd || c._.ytdP || c._.cur || c._.curP);
 function pAgg(list) {
   const a = {n: 0, nP: 0, lost: 0, fresh: 0, ytd: 0, ytdP: 0, cur: 0, curP: 0, yearP: 0, t26: Array(12).fill(0), t25: Array(12).fill(0), dep: {}};
@@ -1301,7 +1462,7 @@ const PFLAGS = [['drop', '累計衰退'], ['lag', '本月落後時間進度'], [
 function perfFiltered() {
   const v = VP, q = v.q.trim().toLowerCase();
   const sets = {cig: new Set((DC?.stores || []).map(s => s.id)), beer: new Set((DB?.stores || []).map(s => s.id)), liq: new Set((DL?.stores || []).map(s => s.id))};
-  let list = DP.customers.filter(c => perfActive(c) && (!v.office || c.office === v.office) &&
+  let list = DP.customers.filter(c => perfActive(c) && (!v.office || c.office === v.office) && (!v.rep || REP.get(c.id) === v.rep) &&
     (!v.depts.size || [...v.depts].some(k => (c._.dep[k]?.y || 0) + (c._.dep[k]?.cur || 0) > 0)) && (!q || c.name.toLowerCase().includes(q) || c.id.includes(q)));
   const f = v.flag;
   if (f === 'drop') list = list.filter(c => c._.ytdP > 0 && c._.ytd < c._.ytdP);
@@ -1316,10 +1477,8 @@ function perfStore() {
   const v = VP, list = perfFiltered();
   if (!v.sel || !list.some(c => c.id === v.sel)) v.sel = list[0]?.id || null;
   const a = pAgg(list), shown = list.slice(0, 400);
-  return `${pStrip(pAgg(DP.customers.filter(c => !v.office || c.office === v.office)))}${tabsHtml(v)}
+  return `${pStrip(pAgg(DP.customers.filter(c => (!v.office || c.office === v.office) && (!v.rep || REP.get(c.id) === v.rep))))}${tabsHtml(v)}
     <div class="filters">
-      <div class="field"><label for="fOffice">營業所</label><select id="fOffice"><option value="">全部營業所</option>${DP.offices.map(o => `<option ${o === v.office ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>
-      <div class="field"><label for="fQ">搜尋</label><input type="search" id="fQ" placeholder="客戶名稱、客戶代號" value="${esc(v.q)}"></div>
       <div class="field"><span class="fl">今年有進的部門（可複選）</span><div class="chips">${DP.depts.map(k => chip('data-dept', k, k, v.depts.has(k))).join('')}</div></div>
       <div class="field"><span class="fl">只看需要追的客戶</span><div class="chips">${PFLAGS.filter(([k]) => (k !== 'cig' || DC) && (k !== 'beer' || DB) && (k !== 'liq' || DL)).map(([k, l]) => chip('data-flag', k, l, v.flag === k)).join('')}</div></div>
     </div>
@@ -1334,9 +1493,8 @@ function perfStore() {
 }
 function perfBind() {
   const v = VP;
-  if (!$('#fOffice')) return;
+  if (!$('#fSort')) return;
   $('#fSort').value = v.sort;
-  $('#fOffice').onchange = e => { v.office = e.target.value; v.sel = null; render(); };
   $('#fSort').onchange = e => { v.sort = e.target.value; render(); };
   bindSearch(v);
   $$('[data-dept]').forEach(b => b.onclick = () => { const k = b.dataset.dept; v.depts.has(k) ? v.depts.delete(k) : v.depts.add(k); v.sel = null; render(); });
@@ -1405,7 +1563,7 @@ function liqPace(d) {
   const qs = (d.curQ - 1) * 3, start = new Date(yr, qs, 1), end = new Date(yr, qs + 3, 0), now = new Date(yr, +m[1] - 1, +m[2]);
   return {q: Math.min(1, Math.max(0, ((now - start) / 864e5 + 1) / ((end - start) / 864e5 + 1))), label: `${d.year ? d.year + '年' : ''}${m[1]}/${m[2]}`};
 }
-const VL = {tab: 'office', office: '', flag: '', q: '', sort: 'amt', sel: null};
+const VL = {tab: 'store', office: '', rep: '', flag: '', q: '', sort: 'amt', sel: null};
 const LQ = () => DL.curQ - 1;
 function lAgg(list) {
   const a = {n: list.length, amt: 0, missA: 0, missN: 0, ok: 0, everMiss: 0, byQ: [0, 0, 0, 0].map(() => ({amt: 0, ok: 0, n: 0}))};
@@ -1451,7 +1609,7 @@ function liqOffice() {
 const LFLAGS = [['missA', '本季未達 3 萬'], ['missN', '本季未達 10 品項'], ['ever', '曾有一季未達標'], ['near', '本季離門檻 2 成內']];
 function liqFiltered() {
   const v = VL, q = v.q.trim().toLowerCase(), i = LQ(), R = DL.rules;
-  let list = DL.stores.filter(s => (!v.office || s.office === v.office) && (!q || s.name.toLowerCase().includes(q) || s.id.includes(q)));
+  let list = DL.stores.filter(s => (!v.office || s.office === v.office) && (!v.rep || REP.get(s.id) === v.rep) && (!q || s.name.toLowerCase().includes(q) || s.id.includes(q)));
   const cq = s => s._c.qs[i];
   if (v.flag === 'missA') list = list.filter(s => cq(s) && !cq(s).okA);
   if (v.flag === 'missN') list = list.filter(s => cq(s) && !cq(s).okN);
@@ -1464,10 +1622,8 @@ function liqStore() {
   const v = VL, list = liqFiltered();
   if (!v.sel || !list.some(s => s.id === v.sel)) v.sel = list[0]?.id || null;
   const a = lAgg(list), offices = [...new Set(DL.stores.map(s => s.office))];
-  return `${lStrip(lAgg(DL.stores.filter(s => !v.office || s.office === v.office)))}${tabsHtml(v)}
+  return `${lStrip(lAgg(DL.stores.filter(s => (!v.office || s.office === v.office) && (!v.rep || REP.get(s.id) === v.rep))))}${tabsHtml(v)}
     <div class="filters">
-      <div class="field"><label for="fOffice">營業所</label><select id="fOffice"><option value="">全部營業所</option>${offices.map(o => `<option ${o === v.office ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>
-      <div class="field"><label for="fQ">搜尋</label><input type="search" id="fQ" placeholder="店名、BW代號" value="${esc(v.q)}"></div>
       <div class="field"><span class="fl">只看需要追的店</span><div class="chips">${LFLAGS.map(([k, l]) => chip('data-flag', k, l, v.flag === k)).join('')}</div></div>
     </div>
     <div class="split">
@@ -1481,9 +1637,8 @@ function liqStore() {
 }
 function liqBind() {
   const v = VL;
-  if (!$('#fOffice')) return;
+  if (!$('#fSort')) return;
   $('#fSort').value = v.sort;
-  $('#fOffice').onchange = e => { v.office = e.target.value; v.sel = null; render(); };
   $('#fSort').onchange = e => { v.sort = e.target.value; render(); };
   bindSearch(v);
   $$('[data-flag]').forEach(b => b.onclick = () => { v.flag = v.flag === b.dataset.flag ? '' : b.dataset.flag; v.sel = null; render(); });
@@ -1536,7 +1691,7 @@ function liqRules() {
 
 /* ════════════ 上方店家查詢：營業所 → 店家 → 勾選項目 ════════════ */
 const PICKS = [['cig', '菸架購貨'], ['beer', '啤酒五大陳列'], ['liq', '酒特陳架'], ['perf', '全品項業績']];
-const Q = {office: '', id: '', picks: new Set(), q: '', view: ''};
+const Q = {office: '', rep: '', id: '', picks: new Set(), q: '', view: ''};
 let IDX = null;
 function buildIndex() {
   const m = {}, names = {};
@@ -1557,6 +1712,7 @@ function qCandidates() {
   const qq = Q.q.trim().toLowerCase();
   return IDX.all.filter(e => {
     if (Q.office && e.code !== Q.office) return false;
+    if (Q.rep && REP.get(e.id) !== Q.rep) return false;
     if (Q.picks.size) { for (const k of Q.picks) if (!e[k]) return false; }
     else if (!e.cig && !e.beer && !e.liq) return false; // 沒勾選時，只列至少簽一項的店
     return !qq || e.name.toLowerCase().includes(qq) || e.id.includes(qq);
@@ -1567,33 +1723,40 @@ function renderQuery() {
   const avail = {cig: !!DC, beer: !!DB, liq: !!DL, perf: !!DP};
   const list = qCandidates();
   if (Q.id && !list.some(e => e.id === Q.id)) Q.id = '';
+  const qreps = DC ? [...new Set(DC.stores.filter(x => !Q.office || x.id.slice(0, 4) === Q.office).map(x => x.rep).filter(Boolean))].sort((x, y) => x.localeCompare(y, 'zh-Hant')) : [];
+  if (Q.rep && !qreps.includes(Q.rep)) Q.rep = '';
   $('#query').innerHTML = `
-    <div class="qbar">
-      <div class="field"><label for="qOffice">營業所</label>
+    <div class="seek in-query">
+      <div class="seek-f"><label for="qOffice"><b>1</b>營業所</label>
         <select id="qOffice"><option value="">全部營業所</option>${IDX.codes.map(c => `<option value="${c}" ${c === Q.office ? 'selected' : ''}>${esc(IDX.names[c] || c)}（${c}）</option>`).join('')}</select></div>
-      <div class="field grow"><label for="qStore">店家</label>
+      ${DC ? `<div class="seek-f"><label for="qRep"><b>2</b>負責訪員</label>
+        <select id="qRep"><option value="">全部訪員</option>${qreps.map(r => `<option ${r === Q.rep ? 'selected' : ''}>${esc(r)}</option>`).join('')}</select></div>` : ''}
+      <div class="seek-f grow"><label for="qStore"><b>${DC ? 3 : 2}</b>店家</label>
         <div class="qstore">
-          <input type="search" id="qSearch" placeholder="輸入店名或代號篩選" value="${esc(Q.q)}">
-          <select id="qStore"><option value="">${list.length ? `請選擇店家（${list.length} 家）` : '沒有符合條件的店家'}</option>${list.map(e => `<option value="${e.id}" ${e.id === Q.id ? 'selected' : ''}>${esc(e.name)}・${e.id}</option>`).join('')}</select>
+          <input type="search" id="qSearch" placeholder="輸入店名或代號縮小範圍" value="${esc(Q.q)}">
+          <select id="qStore"><option value="">${list.length ? `請選擇店家（共 ${list.length} 家）` : '沒有符合條件的店家'}</option>${list.map(e => `<option value="${e.id}" ${e.id === Q.id ? 'selected' : ''}>${esc(e.name)}・${e.id}</option>`).join('')}</select>
         </div></div>
-      <div class="field"><span class="fl">查看項目</span>
-        <div class="checks">${PICKS.map(([k, l]) => `<label class="check ${avail[k] ? '' : 'off'}"><input type="checkbox" id="qp-${k}" data-pick="${k}" ${Q.picks.has(k) ? 'checked' : ''} ${avail[k] ? '' : 'disabled'}><span>${l}</span></label>`).join('')}</div></div>
     </div>
-    <div class="hint">${Q.picks.size ? `${Q.picks.size > 1 ? '只列出同時有這些項目的店家' : '只列出有這個項目的店家'}，目前 ${list.length} 家。` : `店家名單只列出至少簽了菸架、啤酒五大或酒特陳架其中一項的店；要查一般客戶的業績，請勾「全品項業績」。`}</div>`;
+    <div class="seek-more">
+      <span class="fl">只看有簽這些項目的店（可複選）</span>
+      <div class="checks">${PICKS.map(([k, l]) => `<label class="check ${avail[k] ? '' : 'off'}"><input type="checkbox" id="qp-${k}" data-pick="${k}" ${Q.picks.has(k) ? 'checked' : ''} ${avail[k] ? '' : 'disabled'}><span>${l}</span></label>`).join('')}</div>
+    </div>
+    <div class="hint">${Q.picks.size ? `${Q.picks.size > 1 ? '只列出同時有這些項目的店家' : '只列出有這個項目的店家'}，目前 ${list.length} 家。` : `店家名單列出至少簽了菸架、啤酒五大或酒特陳架其中一項的店；要查一般客戶的業績，請勾「全品項業績」。`}${Q.rep ? '負責訪員依菸架名單對應。' : ''}</div>`;
   $('#qOffice').onchange = e => { Q.office = e.target.value; Q.id = ''; saveQ(); renderQuery(); };
-  $('#qStore').onchange = e => { Q.id = e.target.value; saveQ(); renderQRes(); };
+  if ($('#qRep')) $('#qRep').onchange = e => { Q.rep = e.target.value; Q.id = ''; saveQ(); renderQuery(); };
+  $('#qStore').onchange = e => { Q.id = e.target.value; saveQ(); renderQRes(); decorate($('#qres')); track(); };
   let t; $('#qSearch').oninput = e => { clearTimeout(t); t = setTimeout(() => {
     Q.q = e.target.value; const l = qCandidates(); if (l.length === 1) Q.id = l[0].id;
     renderQuery(); const i = $('#qSearch'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }, 250); };
   $$('[data-pick]').forEach(b => b.onchange = () => { b.checked ? Q.picks.add(b.dataset.pick) : Q.picks.delete(b.dataset.pick); saveQ(); renderQuery(); });
   renderQRes();
 }
-function saveQ() { store.set('tw.q', JSON.stringify({office: Q.office, id: Q.id, picks: [...Q.picks], view: Q.view})); }
-function loadQ() { try { const o = JSON.parse(store.get('tw.q') || '{}'); Q.office = o.office || ''; Q.id = o.id || ''; Q.picks = new Set(o.picks || []); Q.view = o.view || ''; } catch (e) {} }
+function saveQ() { store.set('tw.q', JSON.stringify({office: Q.office, rep: Q.rep, id: Q.id, picks: [...Q.picks], view: Q.view})); }
+function loadQ() { try { const o = JSON.parse(store.get('tw.q') || '{}'); Q.office = o.office || ''; Q.rep = o.rep || ''; Q.id = o.id || ''; Q.picks = new Set(o.picks || []); Q.view = o.view || ''; } catch (e) {} }
 function renderQRes() {
   const box = $('#qres');
   const e = IDX.all.find(x => x.id === Q.id);
-  if (!e) { box.innerHTML = `<div class="qempty">先選營業所，再從「店家」選一家店，這裡會列出它各項目的進度與獎勵試算。</div>`; return; }
+  if (!e) { box.innerHTML = `<div class="qempty">依序選 ① 營業所、② 負責訪員，再從 ③ 店家選一家店，這裡就會列出它各項目的進度與獎勵試算。</div>`; return; }
   const items = (Q.picks.size ? [...Q.picks] : ['cig', 'beer', 'liq', 'perf']).filter(k => e[k]);
   if (!items.includes(Q.view)) Q.view = items[0] || '';
   const c = e.cig, b = e.beer, p = e.perf, l = e.liq, bc = b?._c, lq = l ? l._c.qs[DL.curQ - 1] : null;
@@ -1616,7 +1779,8 @@ function renderQRes() {
     <div class="qtiles">${tiles.join('')}</div>
     ${items.length ? `<div class="qtabs" role="tablist" aria-label="店家項目">${items.map(k => `<button class="qtab" role="tab" data-view="${k}" aria-selected="${k === Q.view}"><span>${titles[k]}</span><small>${sub[k]} ${status[k]}</small></button>`).join('')}</div>
     <div id="qcard">${cards[Q.view]()}</div>` : '<div class="qempty">這家店沒有勾選項目的資料。</div>'}`;
-  $$('[data-view]').forEach(t => t.onclick = () => { Q.view = t.dataset.view; saveQ(); $$('[data-view]').forEach(x => x.setAttribute('aria-selected', x === t)); $('#qcard').innerHTML = cards[Q.view](); });
+  $$('[data-view]').forEach(t => t.onclick = () => { Q.view = t.dataset.view; saveQ(); $$('[data-view]').forEach(x => x.setAttribute('aria-selected', x === t)); $('#qcard').innerHTML = cards[Q.view](); decorate($('#qcard')); track(); });
+  decorate(box);
 }
 function goTo(prod, id) {
   const e = IDX?.all.find(x => x.id === id);
@@ -1656,7 +1820,8 @@ function renderHead() {
     $('#paceBox').innerHTML = DC ? `時間進度 月 <b style="color:var(--pace)">${pct(paceC.m, 0)}</b>・季 <b style="color:var(--pace)">${pct(paceC.q, 0)}</b>` : '';
   }
 }
-function render() {
+function render() { renderCore(); afterRender(); }
+function renderCore() {
   renderHead();
   const q = S.prod === 'query';
   $('#secQuery').hidden = !q; $('#app').hidden = q;
@@ -1664,11 +1829,91 @@ function render() {
   const beer = S.prod === 'beer', perf = S.prod === 'perf', liq = S.prod === 'liq', D = liq ? DL : perf ? DP : beer ? DB : DC, v = st();
   if (!D) { $('#app').innerHTML = noData(liq ? '酒特陳架' : perf ? '全品項業績' : beer ? '啤酒' : '菸架'); return; }
   const html = liq ? (v.tab === 'store' ? liqStore() : liqOffice()) : perf ? (v.tab === 'store' ? perfStore() : perfOffice()) : beer ? (v.tab === 'store' ? beerStore() : beerOffice()) : (v.tab === 'store' ? cigStore() : cigOffice());
-  $('#app').innerHTML = `<div class="stack">${html}</div>`;
-  bindCommon();
+  $('#app').innerHTML = `<div class="stack">${qbarHtml(v)}${html}</div>`;
+  bindCommon(); bindQbar(v);
   if (v.tab === 'store') liq ? liqBind() : perf ? perfBind() : beer ? beerBind() : cigBind();
 }
-function setCig(d) { DC = d; paceC = cigPace(d); }
+/* ── 展開／收合 ── */
+const FOLD_KEY = 'tw.fold';
+let folds = {}; try { folds = JSON.parse(localStorage.getItem(FOLD_KEY) || '{}'); } catch (e) {}
+const saveFolds = () => { try { localStorage.setItem(FOLD_KEY, JSON.stringify(folds)); } catch (e) {} };
+const foldName = t => String(t || '').replace(/[（(].*$/, '').replace(/[\d,.%／/:：+\-−]+/g, '').replace(/\s+/g, '').slice(0, 16);
+function setFold(el, key, closed) { el.classList.toggle('closed', closed); const h = el.querySelector(':scope > .fold-h'); if (h) h.setAttribute('aria-expanded', !closed); if (closed) folds[key] = 1; else delete folds[key]; }
+function makeToggle(el, h, key) {
+  h.classList.add('fold-h'); h.tabIndex = 0; h.setAttribute('role', 'button'); h.setAttribute('aria-expanded', 'true');
+  if (!h.querySelector(':scope > .caret')) h.insertAdjacentHTML('beforeend', '<span class="caret" aria-hidden="true"></span>');
+  el.dataset.fold = key; if (folds[key]) setFold(el, key, true);
+  const go = e => { if (e.target.closest('button,a,select,input') && e.target !== h) return; setFold(el, key, !el.classList.contains('closed')); saveFolds(); };
+  h.addEventListener('click', go);
+  h.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(e); } });
+}
+function wrapFold(el, title, key) {
+  if (el.closest('.fold-b') || el.parentElement?.classList.contains('fold-b')) return;
+  const box = document.createElement('section'); box.className = 'fold blk';
+  const h = document.createElement('div'); h.className = 'fold-title'; h.innerHTML = `<span>${title}</span>`;
+  const b = document.createElement('div'); b.className = 'fold-b';
+  el.replaceWith(box); box.append(h, b); b.append(el);
+  makeToggle(box, h, key);
+}
+function decorate(root) {
+  if (!root) return;
+  const sec = S.prod;
+  root.querySelectorAll('.sec').forEach(x => { if (x.dataset.fold) return; const h = x.querySelector(':scope > h3'); if (h) makeToggle(x, h, sec + ':sec:' + foldName(h.firstChild?.textContent || h.textContent)); });
+  root.querySelectorAll('.strip').forEach(x => wrapFold(x, '重點指標', sec + ':kpi'));
+  root.querySelectorAll('.filters').forEach(x => wrapFold(x, '篩選條件', sec + ':filters'));
+  root.querySelectorAll('.tablebox:not(.flat)').forEach(x => { if (!x.closest('.card')) wrapFold(x, '營業所明細', sec + ':table'); });
+  root.querySelectorAll('.qtiles').forEach(x => wrapFold(x, '店家重點', 'query:tiles'));
+}
+function foldAll(closed) {
+  const root = S.prod === 'query' ? $('#secQuery') : $('#app');
+  root.querySelectorAll('[data-fold]').forEach(el => setFold(el, el.dataset.fold, closed)); saveFolds();
+}
+$('#btnExpand').onclick = () => foldAll(false);
+$('#btnCollapse').onclick = () => foldAll(true);
+
+/* ── 返回：記錄每一步，按返回或瀏覽器上一頁就回到前一個畫面 ── */
+const NAMES = {query: '店家查詢', cig: '菸架購貨', beer: '啤酒五大陳列', liq: '酒特陳架', perf: '全品項業績'};
+let navReady = false, restoring = false, lastSnap = '', depth = 0;
+function snap() {
+  const o = {p: S.prod, q: {o: Q.office, r: Q.rep, i: Q.id, v: Q.view}};
+  if (S.prod !== 'query') { const v = st(); o.t = v.tab; o.o = v.office || ''; o.r = v.rep || ''; o.s = v.picked || ''; }
+  return JSON.stringify(o);
+}
+function applySnap(j) {
+  const o = JSON.parse(j); S.prod = o.p; store.set('tw.prod', S.prod);
+  Q.office = o.q.o; Q.rep = o.q.r || ''; Q.id = o.q.i; Q.view = o.q.v; saveQ();
+  if (o.p !== 'query') { const v = st(); v.tab = o.t; v.office = o.o; v.rep = o.r || ''; v.picked = o.s; v.sel = o.s || null; }
+}
+function track() {
+  if (!navReady || restoring) return;
+  const s = snap(); if (s === lastSnap) return;
+  depth++; history.pushState({tw: s, d: depth}, ''); lastSnap = s; updateNav();
+}
+function crumbHtml() {
+  const parts = [NAMES[S.prod]];
+  if (S.prod === 'query') { const e = IDX?.all.find(x => x.id === Q.id); if (e) parts.push(e.name); }
+  else {
+    const v = st(); parts.push(v.tab === 'store' ? '店家明細' : '營業所總覽'); if (v.office) parts.push(v.office + '營業所'); if (v.rep) parts.push('訪員 ' + v.rep);
+    if (v.picked && v.tab === 'store') { const list = ({cig: DC?.stores, beer: DB?.stores, liq: DL?.stores, perf: DP?.customers})[S.prod] || []; const x = list.find(y => y.id === v.picked); if (x) parts.push(x.name); }
+  }
+  return parts.map((t, i) => `<span class="${i === parts.length - 1 ? 'cur' : ''}">${esc(t)}</span>`).join('<i>›</i>');
+}
+function updateNav() { $('#btnBack').hidden = !(history.state?.d > 0); $('#crumb').innerHTML = crumbHtml(); }
+function afterRender() {
+  document.body.dataset.sec = S.prod;
+  decorate(S.prod === 'query' ? $('#secQuery') : $('#app'));
+  if (!navReady) { navReady = true; lastSnap = snap(); history.replaceState({tw: lastSnap, d: 0}, ''); }
+  track(); updateNav();
+  const on = document.querySelector('.topnav .prod[aria-selected="true"]'); if (on) { const n = on.parentElement; n.scrollLeft = Math.max(0, on.offsetLeft - (n.clientWidth - on.offsetWidth) / 2); }
+}
+$('#btnBack').onclick = () => history.back();
+window.addEventListener('popstate', e => {
+  const st0 = e.state; if (!st0?.tw) return;
+  restoring = true; depth = st0.d; applySnap(st0.tw); lastSnap = st0.tw;
+  render(); restoring = false; updateNav(); window.scrollTo({top: 0});
+});
+
+function setCig(d) { DC = d; paceC = cigPace(d); REP = new Map(d.stores.map(s => [s.id, s.rep])); }
 function setLiq(d) { DL = d; DL._orig = {curQ: d.curQ, asOf: d.asOf}; mergeLiq(); }
 /* 酒特陳架：追蹤表沒有的季別，用 BW 明細補上（購值 ×1.05、品項數照追蹤表算法） */
 function mergeLiq() {
